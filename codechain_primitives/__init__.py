@@ -1,3 +1,6 @@
+from .UnsignedInteger import U64, U128, U256
+
+import sys
 # -------
 # Pythons
 # -------
@@ -12,5 +15,4 @@ is_py2 = (_ver[0] == 2)
 is_py3 = (_ver[0] == 3)
 
 if is_py2:
-    print("Please use python3")
-    quit()
+    raise ValueError("Please use python3")
