@@ -1,5 +1,4 @@
 from rlp import encode
-import datetime
 
 
 class _UnsignedInteger(int):
@@ -56,23 +55,12 @@ class _UnsignedInteger(int):
         length = first - 0x80
         if len(data) != length:
             raise ValueError("Invalid data for Unsigned integer")
-        elif length > len(bytes.fromhex(hex(cls.MAX_VALUE)[2:])):
+        elif length > len(bytes.fromhex(hex(cls.MAX_VALUE().value)[2:])):
             raise ValueError(
-                f"Data for Unsigned integer must be less than or equal to {len(bytes.fromhex(hex(cls.MAX_VALUE)[2:]))}")
+                f"Data for Unsigned integer must be less than or equal to {len(bytes.fromhex(hex(cls.MAX_VALUE().value)[2:]))}")
         elif length == 0:
             return cls('0')
         return cls(int.from_bytes(data, byteorder='big'))
-
-    @classmethod
-    def check(cls, param):
-        if type(param) is cls:
-            return True
-        elif type(param) is int:
-            return param >= 0
-        elif type(param) is str:
-            return cls.checkString(param)
-        else:
-            return False
 
     @classmethod
     def check_string(cls, param):
@@ -80,13 +68,14 @@ class _UnsignedInteger(int):
             return False
         try:
             value = int(param, 0)
-            return value >= 0
+            return value >= 0 and value <= cls.MAX_VALUE().value
         except:
             return False
 
     def to_encode_object(self):
-        result = hex(int(self))
-        return bytes.fromhex(result[2:])
+        result = hex(int(self))[2:]
+        result = "0" + result if len(result) % 2 == 1 else result
+        return bytes.fromhex(result)
 
     def rlp_bytes(self):
         return encode(self)
@@ -100,6 +89,9 @@ class _UnsignedInteger(int):
             return "{:x}".format(self)
         else:
             raise ValueError("Only supports base 10, 16")
+
+    def to_string(self, base=10):
+        return str(self.value) if base == 10 else hex(self.value)[2:]
 
     def to_locale_string(self):
         return "{:,}".format(self)
