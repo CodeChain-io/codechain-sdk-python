@@ -6,7 +6,11 @@ class _UnsignedInteger(int):
     """
 
     def __new__(cls, *args, **kwargs):
-        result = super().__new__(cls, *args, **kwargs)
+        if isinstance(args[0], str):
+            result = super().__new__(cls, *args, **kwargs, base=0)
+        else:
+            result = super().__new__(cls, *args, **kwargs)
+
         if result < 0:
             raise ValueError("Integer underflow")
         if hasattr(cls, 'MAX_VALUE') and result > cls.MAX_VALUE:
@@ -55,9 +59,9 @@ class _UnsignedInteger(int):
         length = first - 0x80
         if len(data) != length:
             raise ValueError("Invalid data for Unsigned integer")
-        elif length > len(bytes.fromhex(hex(cls.MAX_VALUE().value)[2:])):
+        elif length > len(bytes.fromhex(hex(cls.MAX_VALUE)[2:])):
             raise ValueError(
-                f"Data for Unsigned integer must be less than or equal to {len(bytes.fromhex(hex(cls.MAX_VALUE().value)[2:]))}")
+                f"Data for Unsigned integer must be less than or equal to {len(bytes.fromhex(hex(cls.MAX_VALUE)[2:]))}")
         elif length == 0:
             return cls('0')
         return cls(int.from_bytes(data, byteorder='big'))
@@ -68,9 +72,20 @@ class _UnsignedInteger(int):
             return False
         try:
             value = int(param, 0)
-            return value >= 0 and value <= cls.MAX_VALUE().value
+            return value >= 0 and value <= cls.MAX_VALUE
         except:
             return False
+
+    @classmethod
+    def check(cls, param):
+        if type(param) is str:
+            return cls.check_string(param)
+        else:
+            if not isinstance(param, int):
+                return False
+        if param >= 0 and param <= cls.MAX_VALUE:
+            return True
+        return False
 
     def to_encode_object(self):
         result = hex(int(self))[2:]
@@ -89,9 +104,6 @@ class _UnsignedInteger(int):
             return "{:x}".format(self)
         else:
             raise ValueError("Only supports base 10, 16")
-
-    def to_string(self, base=10):
-        return str(self.value) if base == 10 else hex(self.value)[2:]
 
     def to_locale_string(self):
         return "{:,}".format(self)
