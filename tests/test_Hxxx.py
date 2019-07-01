@@ -26,7 +26,7 @@ def test_new(Hxxx, className, byteLength):
 @pytest.mark.parametrize("Hxxx, className, byteLength", [(H128, "H128", 16), (H160, "H160", 20), (H256, "H256", 32), (H512, "H512", 64)])
 def test_zero(Hxxx, className, byteLength):
     zero = "00" * byteLength
-    assert Hxxx(zero).is_equal_to(Hxxx(Hxxx.ZERO))
+    assert Hxxx(zero) == Hxxx(Hxxx.ZERO)
 
 
 @pytest.mark.parametrize("Hxxx, className, byteLength", [(H128, "H128", 16), (H160, "H160", 20), (H256, "H256", 32), (H512, "H512", 64)])
@@ -44,7 +44,7 @@ def test_check(Hxxx, className, byteLength):
 @pytest.mark.parametrize("Hxxx, className, byteLength", [(H128, "H128", 16), (H160, "H160", 20), (H256, "H256", 32), (H512, "H512", 64)])
 def test_ensure(Hxxx, className, byteLength):
     zero = "00" * byteLength
-    assert Hxxx(Hxxx(zero)).is_equal_to(Hxxx(zero))
+    assert Hxxx(Hxxx(zero)) == Hxxx(zero)
 
 
 @pytest.mark.parametrize("Hxxx, className, byteLength", [(H128, "H128", 16), (H160, "H160", 20), (H256, "H256", 32), (H512, "H512", 64)])
@@ -57,8 +57,8 @@ def test_from_rlp_zero(Hxxx, className, byteLength):
         zeroBytes = [0xb8, byteLength] + [0 for i in range(byteLength)]
     else:
         raise ValueError("Not implemented")
-    assert Hxxx.from_rlp(bytes(zeroBytes)).is_equal_to(Hxxx(zero))
-    assert Hxxx(decode(bytes(zeroBytes))).is_equal_to(Hxxx(zero))
+    assert Hxxx.from_rlp(bytes(zeroBytes)) == Hxxx(zero)
+    assert Hxxx(decode(bytes(zeroBytes))) == Hxxx(zero)
 
 
 @pytest.mark.parametrize("Hxxx, className, byteLength", [(H128, "H128", 16), (H160, "H160", 20), (H256, "H256", 32), (H512, "H512", 64)])
@@ -72,7 +72,7 @@ def test_from_rlp_FF(Hxxx, className, byteLength):
     else:
         raise ValueError("Not implemented")
 
-    assert Hxxx.from_rlp(bytes(valueBytes)).is_equal_to(Hxxx(value))
+    assert Hxxx.from_rlp(bytes(valueBytes)) == Hxxx(value)
 
 
 @pytest.mark.parametrize("Hxxx, className, byteLength", [(H128, "H128", 16), (H160, "H160", 20), (H256, "H256", 32), (H512, "H512", 64)])

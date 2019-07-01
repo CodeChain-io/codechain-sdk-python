@@ -9,24 +9,23 @@ TOO_LARGE = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 
 @pytest.mark.parametrize("Uxxx, className, byteLength", [(U64, "U64", 8), (U128, "U128", 16), (U256, "U256", 32)])
-def test_unsigned_integer(Uxxx, className, byteLength):
-    def test_import():
-        assert inspect.isclass(Uxxx)
+def test_import(Uxxx, className, byteLength):
+    assert inspect.isclass(Uxxx)
 
 
 @pytest.mark.parametrize("Uxxx, className, byteLength", [(U64, "U64", 8), (U128, "U128", 16), (U256, "U256", 32)])
 def test_new(Uxxx, className, byteLength):
-    assert Uxxx(16).eq(Uxxx("16"))
-    assert Uxxx(16).eq(Uxxx("0x10"))
+    assert Uxxx(16) == (Uxxx("16"))
+    assert Uxxx(16) == (Uxxx("0x10"))
     with pytest.raises(ValueError):
         assert Uxxx(TOO_LARGE)
 
-    assert Uxxx(Uxxx(16)).eq(Uxxx(16))
+    assert Uxxx(Uxxx(16)) == (Uxxx(16))
     if type(Uxxx) is U256:
-        assert Uxxx(16).eq(U256(U64(16)))
-        assert Uxxx(16).eq(U256(U128(16)))
+        assert Uxxx(16) == (U256(U64(16)))
+        assert Uxxx(16) == (U256(U128(16)))
     elif type(Uxxx) is U128:
-        assert Uxxx(16).eq(U128(U64(16)))
+        assert Uxxx(16) == (U128(U64(16)))
 
 
 @pytest.mark.parametrize("Uxxx, className, byteLength", [(U64, "U64", 8), (U128, "U128", 16), (U256, "U256", 32)])
@@ -47,63 +46,64 @@ def test_check(Uxxx, className, byteLength):
 
 @pytest.mark.parametrize("Uxxx, className, byteLength", [(U64, "U64", 8), (U128, "U128", 16), (U256, "U256", 32)])
 def test_ensure(Uxxx, className, byteLength):
-    assert Uxxx("10").eq(Uxxx(10))
-    assert Uxxx("0xa").eq(Uxxx(10))
-    assert Uxxx(Uxxx(10)).eq(Uxxx(10))
+    assert Uxxx("10") == Uxxx(10)
+    assert Uxxx("0xa") == Uxxx(10)
+    assert Uxxx(Uxxx(10))
 
     if byteLength >= 32:
-        assert Uxxx(U256(10)).eq(Uxxx(10))
+        assert Uxxx(U256(10)) == (Uxxx(10))
     if byteLength >= 16:
-        assert Uxxx(U128(10)).eq(Uxxx(10))
-    assert Uxxx(U64(10)).eq(Uxxx(10))
+        assert Uxxx(U128(10)) == (Uxxx(10))
+    assert Uxxx(U64(10)) == (Uxxx(10))
 
 
 @pytest.mark.parametrize("Uxxx, className, byteLength", [(U64, "U64", 8), (U128, "U128", 16), (U256, "U256", 32)])
 def test_from_rlp(Uxxx, className, byteLength):
     value = Uxxx(0)
-    assert Uxxx.from_rlp(value.rlp_bytes()).eq(value)
+    assert Uxxx.from_rlp(value.rlp_bytes()) == (value)
     assert Uxxx(decode(value.rlp_bytes(), big_endian_int)) == value
     value = Uxxx(1)
-    assert Uxxx.from_rlp(value.rlp_bytes()).eq(value)
+    assert Uxxx.from_rlp(value.rlp_bytes()) == (value)
     assert Uxxx(decode(value.rlp_bytes(), big_endian_int)) == value
     value = Uxxx(0x79)
-    assert Uxxx.from_rlp(value.rlp_bytes()).eq(value)
+    assert Uxxx.from_rlp(value.rlp_bytes()) == (value)
     assert Uxxx(decode(value.rlp_bytes(), big_endian_int)) == value
     value = Uxxx(255)
-    assert Uxxx.from_rlp(value.rlp_bytes()).eq(value)
+    assert Uxxx.from_rlp(value.rlp_bytes()) == (value)
     assert Uxxx(decode(value.rlp_bytes(), big_endian_int)) == value
     value = Uxxx(1000)
-    assert Uxxx.from_rlp(value.rlp_bytes()).eq(value)
+    assert Uxxx.from_rlp(value.rlp_bytes()) == (value)
     assert Uxxx(decode(value.rlp_bytes(), big_endian_int)) == value
     value = Uxxx("1000000000000000")
-    assert Uxxx.from_rlp(value.rlp_bytes()).eq(value)
+    assert Uxxx.from_rlp(value.rlp_bytes()) == (value)
     assert Uxxx(decode(value.rlp_bytes(), big_endian_int)) == value
 
     rlpdata = [0x80 + byteLength] + [0xff for i in range(byteLength)]
-    assert Uxxx.from_rlp(bytes(rlpdata)).eq(Uxxx.MAX_VALUE())
+    assert Uxxx.from_rlp(bytes(rlpdata)) == (Uxxx.MAX_VALUE)
 
 
 @pytest.mark.parametrize("Uxxx, className, byteLength", [(U64, "U64", 8), (U128, "U128", 16), (U256, "U256", 32)])
 def test_from_rlp_throws_for_oversize_buffer(Uxxx, className, byteLength):
     with pytest.raises(ValueError) as e:
-        rlpdata = chr(0x80 + byteLength + 1).ljust(byteLength + 2, chr(0xff))
-        Uxxx.from_rlp(rlpdata).eq(Uxxx.MAX_VALUE())
+        rlpdata = [0x80 + byteLength + 1] + \
+            [0xff for i in range(byteLength + 1)]
+        Uxxx.from_rlp(bytes(rlpdata)) == (Uxxx.MAX_VALUE)
     assert "less than or equal to" in str(e.value)
 
 
 @pytest.mark.parametrize("Uxxx, className, byteLength", [(U64, "U64", 8), (U128, "U128", 16), (U256, "U256", 32)])
 def test_from_rlp_throws_for_invalid_RLP(Uxxx, className, byteLength):
     with pytest.raises(ValueError) as e:
-        rlpdata = chr(0xc0 + byteLength + 1).ljust(byteLength + 1, chr(0xff))
-        Uxxx.from_rlp(rlpdata).eq(Uxxx.MAX_VALUE())
+        rlpdata = [0x80 + byteLength + 1] + [0xff for i in range(byteLength)]
+        Uxxx.from_rlp(bytes(rlpdata)) == (Uxxx.MAX_VALUE)
     assert "Invalid data" in str(e.value)
 
 
 @pytest.mark.parametrize("Uxxx, className, byteLength", [(U64, "U64", 8), (U128, "U128", 16), (U256, "U256", 32)])
 def test_is_equal_to(Uxxx, className, byteLength):
-    assert Uxxx(0).is_equal_to(Uxxx(0))
-    assert Uxxx(1000000).is_equal_to(Uxxx(1000000))
-    assert Uxxx("100000000000000000").is_equal_to(Uxxx("100000000000000000"))
+    assert Uxxx(0) == Uxxx(0)
+    assert Uxxx(1000000) == Uxxx(1000000)
+    assert Uxxx("100000000000000000") == Uxxx("100000000000000000")
 
 
 @pytest.mark.parametrize("Uxxx, className, byteLength", [(U64, "U64", 8), (U128, "U128", 16), (U256, "U256", 32)])
@@ -167,13 +167,13 @@ def test_plus(Uxxx, className, byteLength):
         Uxxx(Uxxx.MAX_VALUE) + Uxxx(1)
     assert "overflow" in str(e.value)
     with pytest.raises(ValueError) as e:
-        Uxxx(-1) + Uxxx(0)
-    assert "Invalid" in str(e.value)
+        Uxxx(0) - 1
+    assert "underflow" in str(e.value)
 
     a = Uxxx(10)
     b = Uxxx(5)
     assert (a + b) == Uxxx(15)
-    c = Uxxx(Uxxx.MAX_VALUE())
+    c = Uxxx(Uxxx.MAX_VALUE)
     d = Uxxx(1)
     with pytest.raises(ValueError) as e:
         (c + d)
@@ -187,8 +187,8 @@ def test_minus(Uxxx, className, byteLength):
         Uxxx(5) - Uxxx(10)
     assert "underflow" in str(e.value)
     with pytest.raises(ValueError) as e:
-        Uxxx(-1) - Uxxx(-1)
-    assert "Invalid" in str(e.value)
+        Uxxx(5) - 10
+    assert "underflow" in str(e.value)
 
     a = Uxxx(10)
     b = Uxxx(5)
@@ -202,18 +202,18 @@ def test_minus(Uxxx, className, byteLength):
 def test_times(Uxxx, className, byteLength):
     assert Uxxx(10) * Uxxx(5) == Uxxx(10 * 5)
     assert Uxxx(Uxxx.MAX_VALUE) * Uxxx(0) == Uxxx(0)
-    assert Uxxx(Uxxx.MAX_VALUE) * Uxxx(1) == Uxxx.MAX_VALUE()
+    assert Uxxx(Uxxx.MAX_VALUE) * Uxxx(1) == Uxxx.MAX_VALUE
     with pytest.raises(ValueError) as e:
         Uxxx(Uxxx.MAX_VALUE) * Uxxx(2)
     assert "overflow" in str(e.value)
     with pytest.raises(ValueError) as e:
         Uxxx(-1) * Uxxx(-1)
-    assert "Invalid" in str(e.value)
+    assert "underflow" in str(e.value)
 
     a = Uxxx(10)
     b = Uxxx(5)
     assert (a * b) == Uxxx(10 * 5)
-    c = Uxxx.MAX_VALUE()
+    c = Uxxx.MAX_VALUE
     d = Uxxx(0)
     assert (c * d) == Uxxx(0)
     e = Uxxx(1)
@@ -228,10 +228,12 @@ def test_times(Uxxx, className, byteLength):
 def test_idiv(Uxxx, className, byteLength):
     assert Uxxx(10) // Uxxx(5) == Uxxx(10 // 5)
     assert Uxxx(14) // Uxxx(5) == Uxxx(2)
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(ZeroDivisionError) as e:
         Uxxx(10) // Uxxx(0)
-    assert "Divided" in str(e.value)
-    Uxxx(-1) // Uxxx(-1) == Uxxx(1)
+    assert "division" in str(e.value)
+    with pytest.raises(ValueError) as e:
+        Uxxx(1) // -1
+    assert "underflow" in str(e.value)
 
     a = Uxxx(10)
     b = Uxxx(5)
@@ -239,21 +241,19 @@ def test_idiv(Uxxx, className, byteLength):
     c = Uxxx(14)
     assert (c // b) == Uxxx(2)
     d = Uxxx(0)
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(ZeroDivisionError) as e:
         (a // d)
-    assert "Divided" in str(e.value)
+    assert "division" in str(e.value)
 
 
 @pytest.mark.parametrize("Uxxx, className, byteLength", [(U64, "U64", 8), (U128, "U128", 16), (U256, "U256", 32)])
 def test_mod(Uxxx, className, byteLength):
     assert Uxxx(10) % Uxxx(5) == Uxxx(0)
     assert Uxxx(14) % Uxxx(5) == Uxxx(4)
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(ZeroDivisionError) as e:
         Uxxx(10) % Uxxx(0)
-    assert "Divided" in str(e.value)
-    with pytest.raises(ValueError) as e:
-        Uxxx(-1) % Uxxx(-1)
-    assert "Invalid" in str(e.value)
+    assert "modulo" in str(e.value)
+    assert Uxxx(1) % -1 == 0
 
     a = Uxxx(10)
     b = Uxxx(5)
@@ -261,9 +261,9 @@ def test_mod(Uxxx, className, byteLength):
     c = Uxxx(14)
     assert (c % b) == Uxxx(4)
     d = Uxxx(0)
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(ZeroDivisionError) as e:
         a % d
-    assert "Divided" in str(e.value)
+    assert "modulo" in str(e.value)
 
 
 @pytest.mark.parametrize("Uxxx, className, byteLength", [(U64, "U64", 8), (U128, "U128", 16), (U256, "U256", 32)])

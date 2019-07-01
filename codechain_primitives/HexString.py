@@ -9,7 +9,8 @@ class _HexString(bytes):
     def __new__(cls, value, *args, **kwargs):
         if type(value) is str:
             if not cls.check_string(value):
-                raise ValueError(f"Expected hexstring but found {value}")
+                raise ValueError(
+                    f"Expected {cls.LENGTH} byte hexstring for creating {cls.__name__} but found {value}({len(value)})")
             value = bytes.fromhex(
                 value[2:] if value.startswith("0x") else value)
 
