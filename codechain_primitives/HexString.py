@@ -44,7 +44,7 @@ class _HexString(bytes):
     @classmethod
     def check(cls, param):
         try:
-            return True if type(param) is cls else cls.checkString(param)
+            return True if type(param) is cls else cls.check_string(param)
         except:
             return False
 

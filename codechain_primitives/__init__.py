@@ -1,4 +1,5 @@
 from .UnsignedInteger import U64, U128, U256
+from .HexString import H128, H160, H256, H512
 
 import sys
 # -------
