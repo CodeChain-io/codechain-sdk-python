@@ -59,11 +59,11 @@ class _UnsignedInteger(int):
             return cls(hex(first))
 
         length = first - 0x80
+        max_bytes = (cls.MAX_VALUE.bit_length() + 7) // 8
         if len(data) != length:
             raise ValueError("Invalid data for Unsigned integer")
-        elif length > len(bytes.fromhex(hex(cls.MAX_VALUE)[2:])):
-            raise ValueError(
-                f"Data for Unsigned integer must be less than or equal to {len(bytes.fromhex(hex(cls.MAX_VALUE)[2:]))}")
+        elif length > max_bytes:
+            raise ValueError(f"Byte length of {cls.__name__} must be less than or equal to {max_bytes}")
         elif length == 0:
             return cls('0')
         return cls(int.from_bytes(data, byteorder='big'))
