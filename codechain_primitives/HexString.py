@@ -14,7 +14,7 @@ class _HexString(bytes):
             value = bytes.fromhex(
                 value[2:] if value.startswith("0x") else value)
 
-        if hasattr(cls, 'LENGTH') and len(value) > cls.LENGTH:
+        if hasattr(cls, 'LENGTH') and len(value) != cls.LENGTH:
             raise ValueError(
                 f"Expected {cls.LENGTH} byte hexstring for creating {cls.__name__} but found {value}({len(value)})")
         return super().__new__(cls, value, *args, **kwargs)
