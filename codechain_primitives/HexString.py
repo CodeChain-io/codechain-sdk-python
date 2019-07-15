@@ -7,6 +7,8 @@ import re
 class _HexString(bytes):
 
     def __new__(cls, value, *args, **kwargs):
+        assert(hasattr(cls, "LENGTH"), f"{cls.__name__} should have a class variable 'LENGTH'")
+
         if type(value) is str:
             if not cls.check_string(value):
                 raise ValueError(
@@ -14,7 +16,7 @@ class _HexString(bytes):
             value = bytes.fromhex(
                 value[2:] if value.startswith("0x") else value)
 
-        if hasattr(cls, 'LENGTH') and len(value) != cls.LENGTH:
+        if len(value) != cls.LENGTH:
             raise ValueError(
                 f"Expected {cls.LENGTH} byte hexstring for creating {cls.__name__} but found {value}({len(value)})")
         return super().__new__(cls, value, *args, **kwargs)
