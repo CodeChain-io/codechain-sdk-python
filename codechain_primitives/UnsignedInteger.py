@@ -65,7 +65,7 @@ class _UnsignedInteger(int):
         elif length > max_bytes:
             raise ValueError(f"Byte length of {cls.__name__} must be less than or equal to {max_bytes}")
         elif length == 0:
-            return cls('0')
+            return cls(0)
         return cls(int.from_bytes(data, byteorder='big'))
 
     @classmethod
