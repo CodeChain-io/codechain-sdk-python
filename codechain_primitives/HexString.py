@@ -1,5 +1,4 @@
 from rlp import encode
-import string
 import binascii
 import re
 
