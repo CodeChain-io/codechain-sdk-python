@@ -90,12 +90,10 @@ class _UnsignedInteger(int):
         return False
 
     def to_encode_object(self):
-        result = hex(int(self))[2:]
-        result = "0" + result if len(result) % 2 == 1 else result
-        return bytes.fromhex(result)
+        return self
 
     def rlp_bytes(self):
-        return encode(self)
+        return encode(self.to_encode_object())
 
     def to_string(self, base=16, prefix=True):
         if base == 10:
