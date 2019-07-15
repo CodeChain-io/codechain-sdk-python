@@ -22,7 +22,7 @@ class _HexString(bytes):
 
     @classmethod
     def check_string(cls, value):
-        return None != re.match("^(0x)?[0-9a-fA-F]{" + str(cls.LENGTH * 2) + "}$", value)
+        return None != re.match(f"^(0x)?[0-9a-fA-F]{{{cls.LENGTH*2}}}$", value)
 
     @classmethod
     def from_rlp(cls, buffer):
