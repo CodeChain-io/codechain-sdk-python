@@ -6,6 +6,8 @@ class _UnsignedInteger(int):
     """
 
     def __new__(cls, *args, **kwargs):
+        assert(hasattr(cls, "MAX_VALUE"), f"{cls.__name__} should have a class variable 'MAX_VALUE'")
+
         if isinstance(args[0], str):
             result = super().__new__(cls, *args, **kwargs, base=0)
         else:
