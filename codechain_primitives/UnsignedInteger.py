@@ -51,7 +51,7 @@ class _UnsignedInteger(int):
 
     @classmethod
     def from_rlp(cls, buffer):
-        if type(buffer) is not bytes and type(buffer) is not bytearray:
+        if not isinstance(buffer, (bytes, bytearray)):
             raise ValueError("Argument should be bytearray")
         data = buffer[1:]
         first = buffer[0]
@@ -70,7 +70,7 @@ class _UnsignedInteger(int):
 
     @classmethod
     def check_string(cls, param):
-        if type(param) is not str:
+        if not isinstance(param, str):
             return False
         try:
             value = int(param, 0)
@@ -80,7 +80,7 @@ class _UnsignedInteger(int):
 
     @classmethod
     def check(cls, param):
-        if type(param) is str:
+        if isinstance(param, str):
             return cls.check_string(param)
         else:
             if not isinstance(param, int):
