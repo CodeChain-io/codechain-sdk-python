@@ -19,35 +19,35 @@ class _UnsignedInteger(int):
             raise ValueError("Integer overflow")
         return result
 
-    def __add__(self, rhsValue):
-        return self.__class__(int(self) + int(rhsValue))
+    def __add__(self, rhs_value):
+        return self.__class__(int(self) + int(rhs_value))
 
-    def __radd__(self, lhsValue):
-        return self.__class__(int(lhsValue) + int(self))
+    def __radd__(self, lhs_value):
+        return self.__class__(int(lhs_value) + int(self))
 
-    def __sub__(self, rhsValue):
-        return self.__class__(int(self) - int(rhsValue))
+    def __sub__(self, rhs_value):
+        return self.__class__(int(self) - int(rhs_value))
 
-    def __rsub__(self, lhsValue):
-        return self.__class__(int(lhsValue) - int(self))
+    def __rsub__(self, lhs_value):
+        return self.__class__(int(lhs_value) - int(self))
 
-    def __mul__(self, rhsValue):
-        return self.__class__(int(self) * int(rhsValue))
+    def __mul__(self, rhs_value):
+        return self.__class__(int(self) * int(rhs_value))
 
-    def __rmul__(self, lhsValue):
-        return self.__class__(int(lhsValue) * int(self))
+    def __rmul__(self, lhs_value):
+        return self.__class__(int(lhs_value) * int(self))
 
-    def __floordiv__(self, rhsValue):
-        return self.__class__(int(self) // int(rhsValue))
+    def __floordiv__(self, rhs_value):
+        return self.__class__(int(self) // int(rhs_value))
 
-    def __rfloordiv__(self, lhsValue):
-        return self.__class__(int(lhsValue) // int(self))
+    def __rfloordiv__(self, lhs_value):
+        return self.__class__(int(lhs_value) // int(self))
 
-    def __mod__(self, rhsValue):
-        return self.__class__(int(self) % int(rhsValue))
+    def __mod__(self, rhs_value):
+        return self.__class__(int(self) % int(rhs_value))
 
-    def __rmod__(self, lhsValue):
-        return self.__class__(int(lhsValue) % int(self))
+    def __rmod__(self, lhs_value):
+        return self.__class__(int(lhs_value) % int(self))
 
     @classmethod
     def from_rlp(cls, buffer):
