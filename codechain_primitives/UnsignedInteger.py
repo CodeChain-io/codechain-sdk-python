@@ -74,7 +74,7 @@ class _UnsignedInteger(int):
             return False
         try:
             value = int(param, 0)
-            return value >= 0 and value <= cls.MAX_VALUE
+            return 0 <= value <= cls.MAX_VALUE
         except:
             return False
 
@@ -82,10 +82,7 @@ class _UnsignedInteger(int):
     def check(cls, param):
         if isinstance(param, str):
             return cls.check_string(param)
-        else:
-            if not isinstance(param, int):
-                return False
-        if param >= 0 and param <= cls.MAX_VALUE:
+        elif isinstance(param, int) and 0 <= param <= cls.MAX_VALUE:
             return True
         return False
 
