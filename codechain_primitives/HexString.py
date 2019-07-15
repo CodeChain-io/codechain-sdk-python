@@ -9,7 +9,7 @@ class _HexString(bytes):
     def __new__(cls, value, *args, **kwargs):
         assert(hasattr(cls, "LENGTH"), f"{cls.__name__} should have a class variable 'LENGTH'")
 
-        if type(value) is str:
+        if isinstance(value, str):
             if not cls.check_string(value):
                 raise ValueError(
                     f"Expected {cls.LENGTH} byte hexstring for creating {cls.__name__} but found {value}({len(value)})")
@@ -46,10 +46,10 @@ class _HexString(bytes):
 
     @classmethod
     def check(cls, param):
-        try:
-            return True if type(param) is cls else cls.check_string(param)
-        except:
-            return False
+        if isinstance(param, str):
+            return cls.check_string(param)
+        else:
+            return isinstance(param, cls)
 
     def to_encoded_object(self):
         return self
