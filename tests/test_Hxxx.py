@@ -44,13 +44,13 @@ def test_zero(Hxxx, byteLength):
 )
 def test_check(Hxxx, byteLength):
     zero = "00" * byteLength
-    assert Hxxx.check(Hxxx(zero)) == True
-    assert Hxxx.check(zero) == True
-    assert Hxxx.check(zero[1:] + "F") == True
-    assert Hxxx.check(zero[1:] + "f") == True
-    assert Hxxx.check(zero[1:] + "G") == False
-    assert Hxxx.check(zero[1:] + "g") == False
-    assert Hxxx.check(zero + "0") == False
+    assert Hxxx.check(Hxxx(zero))
+    assert Hxxx.check(zero)
+    assert Hxxx.check(zero[1:] + "F")
+    assert Hxxx.check(zero[1:] + "f")
+    assert not Hxxx.check(zero[1:] + "G")
+    assert not Hxxx.check(zero[1:] + "g")
+    assert not Hxxx.check(zero + "0")
 
 
 @pytest.mark.parametrize(
