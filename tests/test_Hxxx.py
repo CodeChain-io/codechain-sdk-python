@@ -17,33 +17,33 @@ def test_import(Hxxx):
 
 
 @pytest.mark.parametrize(
-    "Hxxx, byteLength", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
+    "Hxxx, byte_length", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
 )
-def test_new(Hxxx, byteLength):
-    zero = "00" * byteLength
+def test_new(Hxxx, byte_length):
+    zero = "00" * byte_length
     Hxxx(zero)
     Hxxx(f"0x{zero}")
     with pytest.raises(ValueError) as e:
         Hxxx(zero + "0")
-    assert str(byteLength) in str(e.value)
+    assert str(byte_length) in str(e.value)
     with pytest.raises(ValueError) as e:
         Hxxx(zero[1:])
-    assert str(byteLength) in str(e.value)
+    assert str(byte_length) in str(e.value)
 
 
 @pytest.mark.parametrize(
-    "Hxxx, byteLength", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
+    "Hxxx, byte_length", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
 )
-def test_zero(Hxxx, byteLength):
-    zero = "00" * byteLength
+def test_zero(Hxxx, byte_length):
+    zero = "00" * byte_length
     assert Hxxx(zero) == Hxxx(Hxxx.ZERO)
 
 
 @pytest.mark.parametrize(
-    "Hxxx, byteLength", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
+    "Hxxx, byte_length", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
 )
-def test_check(Hxxx, byteLength):
-    zero = "00" * byteLength
+def test_check(Hxxx, byte_length):
+    zero = "00" * byte_length
     assert Hxxx.check(Hxxx(zero))
     assert Hxxx.check(zero)
     assert Hxxx.check(zero[1:] + "F")
@@ -54,89 +54,93 @@ def test_check(Hxxx, byteLength):
 
 
 @pytest.mark.parametrize(
-    "Hxxx, byteLength", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
+    "Hxxx, byte_length", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
 )
-def test_ensure(Hxxx, byteLength):
-    zero = "00" * byteLength
+def test_ensure(Hxxx, byte_length):
+    zero = "00" * byte_length
     assert Hxxx(Hxxx(zero)) == Hxxx(zero)
 
 
 @pytest.mark.parametrize(
-    "Hxxx, byteLength", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
+    "Hxxx, byte_length", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
 )
-def test_from_rlp_zero(Hxxx, byteLength):
-    zero = "00" * byteLength
-    zeroBytes = []
-    if byteLength <= 55:
-        zeroBytes = [0x80 + byteLength] + [0 for i in range(byteLength)]
-    elif byteLength <= 0xFF:
-        zeroBytes = [0xB8, byteLength] + [0 for i in range(byteLength)]
+def test_from_rlp_zero(Hxxx, byte_length):
+    zero = "00" * byte_length
+    zero_bytes = []
+    if byte_length <= 55:
+        zero_bytes = [0x80 + byte_length] + [0 for i in range(byte_length)]
+    elif byte_length <= 0xFF:
+        zero_bytes = [0xB8, byte_length] + [0 for i in range(byte_length)]
     else:
         raise ValueError("Not implemented")
-    assert Hxxx.from_rlp(bytes(zeroBytes)) == Hxxx(zero)
-    assert Hxxx(decode(bytes(zeroBytes))) == Hxxx(zero)
+    assert Hxxx.from_rlp(bytes(zero_bytes)) == Hxxx(zero)
+    assert Hxxx(decode(bytes(zero_bytes))) == Hxxx(zero)
 
 
 @pytest.mark.parametrize(
-    "Hxxx, byteLength", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
+    "Hxxx, byte_length", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
 )
-def test_from_rlp_FF(Hxxx, byteLength):
-    value = "FF" * byteLength
-    valueBytes = []
-    if byteLength <= 55:
-        valueBytes = [0x80 + byteLength] + [0xFF for i in range(byteLength)]
-    elif byteLength <= 0xFF:
-        valueBytes = [0xB8, byteLength] + [0xFF for i in range(byteLength)]
+def test_from_rlp_FF(Hxxx, byte_length):
+    value = "FF" * byte_length
+    value_bytes = []
+    if byte_length <= 55:
+        value_bytes = [0x80 + byte_length] + [0xFF for i in range(byte_length)]
+    elif byte_length <= 0xFF:
+        value_bytes = [0xB8, byte_length] + [0xFF for i in range(byte_length)]
     else:
         raise ValueError("Not implemented")
 
-    assert Hxxx.from_rlp(bytes(valueBytes)) == Hxxx(value)
+    assert Hxxx.from_rlp(bytes(value_bytes)) == Hxxx(value)
 
 
 @pytest.mark.parametrize(
-    "Hxxx, byteLength", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
+    "Hxxx, byte_length", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
 )
-def test_from_rlp_throws(Hxxx, byteLength):
-    longerZeroBytes = []
-    if byteLength <= 55:
-        longerZeroBytes = [0x80 + byteLength + 1] + [0 for i in range(byteLength + 1)]
-    elif byteLength <= 0xFF:
-        longerZeroBytes = [0xB8, byteLength + 1] + [0 for i in range(byteLength + 1)]
+def test_from_rlp_throws(Hxxx, byte_length):
+    longer_zero_bytes = []
+    if byte_length <= 55:
+        longer_zero_bytes = [0x80 + byte_length + 1] + [
+            0 for i in range(byte_length + 1)
+        ]
+    elif byte_length <= 0xFF:
+        longer_zero_bytes = [0xB8, byte_length + 1] + [
+            0 for i in range(byte_length + 1)
+        ]
     else:
         raise ValueError("Not implemented")
     with pytest.raises(ValueError) as e:
-        Hxxx.from_rlp(bytes(longerZeroBytes))
+        Hxxx.from_rlp(bytes(longer_zero_bytes))
     assert "Expected" in str(e.value)
 
     with pytest.raises(ValueError) as e:
-        Hxxx.from_rlp(longerZeroBytes)
+        Hxxx.from_rlp(longer_zero_bytes)
     assert "Argument should be bytearray" in str(e.value)
 
 
 @pytest.mark.parametrize(
-    "Hxxx, byteLength", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
+    "Hxxx, byte_length", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
 )
-def test_is_equal_to(Hxxx, byteLength):
-    zero = "00" * byteLength
-    one = "00" * (byteLength - 1) + "01"
+def test_is_equal_to(Hxxx, byte_length):
+    zero = "00" * byte_length
+    one = "00" * (byte_length - 1) + "01"
 
     assert Hxxx(zero) == Hxxx(zero)
     assert Hxxx(zero) != Hxxx(one)
 
 
 @pytest.mark.parametrize(
-    "Hxxx, byteLength", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
+    "Hxxx, byte_length", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
 )
-def test_rlp_bytes(Hxxx, byteLength):
-    zero = "00" * byteLength
-    if byteLength <= 55:
+def test_rlp_bytes(Hxxx, byte_length):
+    zero = "00" * byte_length
+    if byte_length <= 55:
         result = bytearray()
-        result.extend(map(ord, (chr(0x80 + byteLength) + "\x00" * byteLength)))
+        result.extend(map(ord, (chr(0x80 + byte_length) + "\x00" * byte_length)))
         assert Hxxx(zero).rlp_bytes() == result
         assert encode(Hxxx(zero)) == result
-    elif byteLength <= 0xFF:
+    elif byte_length <= 0xFF:
         result = bytearray()
-        result.extend(map(ord, (chr(0xB8) + chr(byteLength) + "\x00" * byteLength)))
+        result.extend(map(ord, (chr(0xB8) + chr(byte_length) + "\x00" * byte_length)))
         assert Hxxx(zero).rlp_bytes() == result
         assert encode(Hxxx(zero)) == result
     else:
