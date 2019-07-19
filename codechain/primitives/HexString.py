@@ -1,6 +1,8 @@
 import binascii
 import re
 
+from rlp import encode
+
 
 class _HexString(bytes):
     def __new__(cls, value, *args, **kwargs):
@@ -55,8 +57,6 @@ class _HexString(bytes):
         return self
 
     def rlp_bytes(self):
-        from rlp import encode
-
         return encode(self.to_encoded_object())
 
     def __str__(self):
