@@ -1,3 +1,6 @@
+from rlp import encode
+
+
 class _UnsignedInteger(int):
     """UnsignedInteger base class: all unsigned integer inherit from this class.
     """
@@ -91,8 +94,6 @@ class _UnsignedInteger(int):
         return self
 
     def rlp_bytes(self):
-        from rlp import encode
-
         return encode(self.to_encode_object())
 
     def to_string(self, base=16, prefix=True):
