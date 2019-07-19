@@ -4,10 +4,9 @@ import re
 
 class _HexString(bytes):
     def __new__(cls, value, *args, **kwargs):
-        assert (
-            hasattr(cls, "LENGTH"),
-            f"{cls.__name__} should have a class variable 'LENGTH'",
-        )
+        assert hasattr(
+            cls, "LENGTH"
+        ), f"{cls.__name__} should have a class variable 'LENGTH'"
 
         if isinstance(value, str):
             if not cls.check_string(value):
