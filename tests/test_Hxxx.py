@@ -11,19 +11,15 @@ from codechain.primitives import H256
 from codechain.primitives import H512
 
 
-@pytest.mark.parametrize(
-    "Hxxx, className, byteLength",
-    [(H128, "H128", 16), (H160, "H160", 20), (H256, "H256", 32), (H512, "H512", 64)],
-)
-def test_import(Hxxx, className, byteLength):
+@pytest.mark.parametrize("Hxxx", [H128, H160, H256, H512])
+def test_import(Hxxx):
     assert inspect.isclass(Hxxx)
 
 
 @pytest.mark.parametrize(
-    "Hxxx, className, byteLength",
-    [(H128, "H128", 16), (H160, "H160", 20), (H256, "H256", 32), (H512, "H512", 64)],
+    "Hxxx, byteLength", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
 )
-def test_new(Hxxx, className, byteLength):
+def test_new(Hxxx, byteLength):
     zero = "00" * byteLength
     Hxxx(zero)
     Hxxx(f"0x{zero}")
@@ -36,19 +32,17 @@ def test_new(Hxxx, className, byteLength):
 
 
 @pytest.mark.parametrize(
-    "Hxxx, className, byteLength",
-    [(H128, "H128", 16), (H160, "H160", 20), (H256, "H256", 32), (H512, "H512", 64)],
+    "Hxxx, byteLength", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
 )
-def test_zero(Hxxx, className, byteLength):
+def test_zero(Hxxx, byteLength):
     zero = "00" * byteLength
     assert Hxxx(zero) == Hxxx(Hxxx.ZERO)
 
 
 @pytest.mark.parametrize(
-    "Hxxx, className, byteLength",
-    [(H128, "H128", 16), (H160, "H160", 20), (H256, "H256", 32), (H512, "H512", 64)],
+    "Hxxx, byteLength", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
 )
-def test_check(Hxxx, className, byteLength):
+def test_check(Hxxx, byteLength):
     zero = "00" * byteLength
     assert Hxxx.check(Hxxx(zero)) == True
     assert Hxxx.check(zero) == True
@@ -60,19 +54,17 @@ def test_check(Hxxx, className, byteLength):
 
 
 @pytest.mark.parametrize(
-    "Hxxx, className, byteLength",
-    [(H128, "H128", 16), (H160, "H160", 20), (H256, "H256", 32), (H512, "H512", 64)],
+    "Hxxx, byteLength", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
 )
-def test_ensure(Hxxx, className, byteLength):
+def test_ensure(Hxxx, byteLength):
     zero = "00" * byteLength
     assert Hxxx(Hxxx(zero)) == Hxxx(zero)
 
 
 @pytest.mark.parametrize(
-    "Hxxx, className, byteLength",
-    [(H128, "H128", 16), (H160, "H160", 20), (H256, "H256", 32), (H512, "H512", 64)],
+    "Hxxx, byteLength", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
 )
-def test_from_rlp_zero(Hxxx, className, byteLength):
+def test_from_rlp_zero(Hxxx, byteLength):
     zero = "00" * byteLength
     zeroBytes = []
     if byteLength <= 55:
@@ -86,10 +78,9 @@ def test_from_rlp_zero(Hxxx, className, byteLength):
 
 
 @pytest.mark.parametrize(
-    "Hxxx, className, byteLength",
-    [(H128, "H128", 16), (H160, "H160", 20), (H256, "H256", 32), (H512, "H512", 64)],
+    "Hxxx, byteLength", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
 )
-def test_from_rlp_FF(Hxxx, className, byteLength):
+def test_from_rlp_FF(Hxxx, byteLength):
     value = "FF" * byteLength
     valueBytes = []
     if byteLength <= 55:
@@ -103,10 +94,9 @@ def test_from_rlp_FF(Hxxx, className, byteLength):
 
 
 @pytest.mark.parametrize(
-    "Hxxx, className, byteLength",
-    [(H128, "H128", 16), (H160, "H160", 20), (H256, "H256", 32), (H512, "H512", 64)],
+    "Hxxx, byteLength", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
 )
-def test_from_rlp_throws(Hxxx, className, byteLength):
+def test_from_rlp_throws(Hxxx, byteLength):
     longerZeroBytes = []
     if byteLength <= 55:
         longerZeroBytes = [0x80 + byteLength + 1] + [0 for i in range(byteLength + 1)]
@@ -124,10 +114,9 @@ def test_from_rlp_throws(Hxxx, className, byteLength):
 
 
 @pytest.mark.parametrize(
-    "Hxxx, className, byteLength",
-    [(H128, "H128", 16), (H160, "H160", 20), (H256, "H256", 32), (H512, "H512", 64)],
+    "Hxxx, byteLength", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
 )
-def test_is_equal_to(Hxxx, className, byteLength):
+def test_is_equal_to(Hxxx, byteLength):
     zero = "00" * byteLength
     one = "00" * (byteLength - 1) + "01"
 
@@ -136,10 +125,9 @@ def test_is_equal_to(Hxxx, className, byteLength):
 
 
 @pytest.mark.parametrize(
-    "Hxxx, className, byteLength",
-    [(H128, "H128", 16), (H160, "H160", 20), (H256, "H256", 32), (H512, "H512", 64)],
+    "Hxxx, byteLength", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
 )
-def test_rlp_bytes(Hxxx, className, byteLength):
+def test_rlp_bytes(Hxxx, byteLength):
     zero = "00" * byteLength
     if byteLength <= 55:
         result = bytearray()
