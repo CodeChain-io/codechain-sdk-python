@@ -1,12 +1,12 @@
-from rlp import encode
-
-
 class _UnsignedInteger(int):
     """UnsignedInteger base class: all unsigned integer inherit from this class.
     """
 
     def __new__(cls, *args, **kwargs):
-        assert(hasattr(cls, "MAX_VALUE"), f"{cls.__name__} should have a class variable 'MAX_VALUE'")
+        assert (
+            hasattr(cls, "MAX_VALUE"),
+            f"{cls.__name__} should have a class variable 'MAX_VALUE'",
+        )
 
         if isinstance(args[0], str):
             result = super().__new__(cls, *args, **kwargs, base=0)
@@ -15,7 +15,7 @@ class _UnsignedInteger(int):
 
         if result < 0:
             raise ValueError("Integer underflow")
-        if hasattr(cls, 'MAX_VALUE') and result > cls.MAX_VALUE:
+        if hasattr(cls, "MAX_VALUE") and result > cls.MAX_VALUE:
             raise ValueError("Integer overflow")
         return result
 
@@ -63,10 +63,12 @@ class _UnsignedInteger(int):
         if len(data) != length:
             raise ValueError("Invalid data for Unsigned integer")
         elif length > max_bytes:
-            raise ValueError(f"Byte length of {cls.__name__} must be less than or equal to {max_bytes}")
+            raise ValueError(
+                f"Byte length of {cls.__name__} must be less than or equal to {max_bytes}"
+            )
         elif length == 0:
             return cls(0)
-        return cls(int.from_bytes(data, byteorder='big'))
+        return cls(int.from_bytes(data, byteorder="big"))
 
     @classmethod
     def check_string(cls, param):
@@ -90,6 +92,8 @@ class _UnsignedInteger(int):
         return self
 
     def rlp_bytes(self):
+        from rlp import encode
+
         return encode(self.to_encode_object())
 
     def to_string(self, base=16, prefix=True):
