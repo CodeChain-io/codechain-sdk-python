@@ -138,6 +138,17 @@ def test_to_encode_object(Uxxx, byte_length):
     assert Uxxx(0xFF).to_encode_object() == 0xFF
     assert Uxxx(0xFFF).to_encode_object() == 0xFFF
 
+    assert encode(Uxxx(0).to_encode_object()) == b"\x80"
+    assert encode(Uxxx(10).to_encode_object()) == b"\x0a"
+    assert encode(Uxxx(255).to_encode_object()) == b"\x81\xff"
+    assert encode(Uxxx(1000).to_encode_object()) == b"\x82\x03\xe8"
+    assert encode(Uxxx(100000).to_encode_object()) == b"\x83\x01\x86\xa0"
+    assert encode(Uxxx(10000000).to_encode_object()) == b"\x83\x98\x96\x80"
+    assert encode(Uxxx("1000000000").to_encode_object()) == b"\x84\x3b\x9a\xca\x00"
+    assert (
+        encode(Uxxx("1000000000000").to_encode_object()) == b"\x85\xe8\xd4\xa5\x10\x00"
+    )
+
 
 @pytest.mark.parametrize("Uxxx, byte_length", [(U64, 8), (U128, 16), (U256, 32)])
 def test_to_string(Uxxx, byte_length):
