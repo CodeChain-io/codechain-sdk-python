@@ -43,18 +43,18 @@ def test_new(Uxxx, className, byteLength):
     [(U64, "U64", 8), (U128, "U128", 16), (U256, "U256", 32)],
 )
 def test_check(Uxxx, className, byteLength):
-    assert Uxxx.check(-1) == False
-    assert Uxxx.check(0.5) == False
+    assert Uxxx.check(-1) is False
+    assert Uxxx.check(0.5) is False
 
-    assert Uxxx.check(0) == True
-    assert Uxxx.check("0") == True
-    assert Uxxx.check("0x0") == True
+    assert Uxxx.check(0) is True
+    assert Uxxx.check("0") is True
+    assert Uxxx.check("0x0") is True
 
     if byteLength >= 32:
-        assert Uxxx.check(U256(0)) == True
+        assert Uxxx.check(U256(0)) is True
     if byteLength >= 16:
-        assert Uxxx.check(U128(0)) == True
-    assert Uxxx.check(U64(0)) == True
+        assert Uxxx.check(U128(0)) is True
+    assert Uxxx.check(U64(0)) is True
 
 
 @pytest.mark.parametrize(
@@ -107,8 +107,7 @@ def test_from_rlp(Uxxx, className, byteLength):
 )
 def test_from_rlp_throws_for_oversize_buffer(Uxxx, className, byteLength):
     with pytest.raises(ValueError) as e:
-        rlpdata = [0x80 + byteLength + 1] + \
-            [0xFF for i in range(byteLength + 1)]
+        rlpdata = [0x80 + byteLength + 1] + [0xFF for i in range(byteLength + 1)]
         Uxxx.from_rlp(bytes(rlpdata)) == (Uxxx.MAX_VALUE)
     assert "less than or equal to" in str(e.value)
 
@@ -329,27 +328,27 @@ def test_mod(Uxxx, className, byteLength):
     [(U64, "U64", 8), (U128, "U128", 16), (U256, "U256", 32)],
 )
 def test_comparison(Uxxx, className, byteLength):
-    assert Uxxx(11) > (10) == True
-    assert Uxxx(10) > (10) == False
-    assert Uxxx(9) > (10) == False
+    assert (Uxxx(11) > (10)) is True
+    assert (Uxxx(10) > (10)) is False
+    assert (Uxxx(9) > (10)) is False
 
-    assert Uxxx(11) >= (10) == True
-    assert Uxxx(10) >= (10) == True
-    assert Uxxx(9) >= (10) == False
+    assert (Uxxx(11) >= (10)) is True
+    assert (Uxxx(10) >= (10)) is True
+    assert (Uxxx(9) >= (10)) is False
 
-    assert Uxxx(11) < (10) == False
-    assert Uxxx(10) < (10) == False
-    assert Uxxx(9) < (10) == True
+    assert (Uxxx(11) < (10)) is False
+    assert (Uxxx(10) < (10)) is False
+    assert (Uxxx(9) < (10)) is True
 
-    assert Uxxx(11) <= (10) == False
-    assert Uxxx(10) <= (10) == True
-    assert Uxxx(9) <= (10) == True
+    assert (Uxxx(11) <= (10)) is False
+    assert (Uxxx(10) <= (10)) is True
+    assert (Uxxx(9) <= (10)) is True
 
 
 @pytest.mark.parametrize(
     "Uxxx, className, byteLength",
     [(U64, "U64", 8), (U128, "U128", 16), (U256, "U256", 32)],
 )
-def test_comparison(Uxxx, className, byteLength):
+def test_to_locale_string(Uxxx, className, byteLength):
     assert Uxxx(1234567).to_locale_string() == "1,234,567"
     assert Uxxx(123).to_locale_string() == "123"
