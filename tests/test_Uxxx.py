@@ -1,13 +1,14 @@
 import inspect
 
 import pytest
+from context import codechain
 from rlp import decode
 from rlp import encode
 from rlp.sedes import big_endian_int
 
-from codechain_primitives import U128
-from codechain_primitives import U256
-from codechain_primitives import U64
+from codechain.primitives import U128
+from codechain.primitives import U256
+from codechain.primitives import U64
 
 TOO_LARGE = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
