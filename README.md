@@ -63,3 +63,11 @@ codechain-keystore is a private key management module. It saves CodeChain's asse
 #### How your private key is saved
 
 We use a JSON file to save an encrypted private key. You can find the file in `./keystore.db`.
+
+## Submitting patches
+- Use `Black`_ to autoformat your code. This should be done for you as a git `pre-commit`_ hook.
+### First time setup
+- Clone your GitHub fork locally:
+- Add the main repository as a remote to update later:
+- Create a virtualenv using Pipenv:
+- Install the pre-commit hooks:
