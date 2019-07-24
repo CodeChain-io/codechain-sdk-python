@@ -1,3 +1,20 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
 .vscode
-.cache/
-*.pyc
+
+# Distribution / packaging
+.Python
+build/
+sdist/
+*.egg-info/
+*.egg
+
+# Unit test / coverage reports
+.tox/
+.coverage
+.coverage.*
+.cache
+coverage.xml
