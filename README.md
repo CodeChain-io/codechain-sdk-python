@@ -69,5 +69,26 @@ We use a JSON file to save an encrypted private key. You can find the file in `.
 ### First time setup
 - Clone your GitHub fork locally:
 - Add the main repository as a remote to update later:
-- Create a virtualenv using Pipenv:
+- Create a virtualenv using pipenv:
+```shell
+$ pipenv install --dev
+```
 - Install the pre-commit hooks:
+```shell
+$ pre-commit install --install-hooks
+```
+### Add dependency
+- Install the dependency using pipenv
+1. In the test environment
+```shell
+$ pipenv install [package] --dev
+```
+2. In the production
+```shell
+$ pip3 install [package]
+```
+and specify it to the `setup.py`
+- lock the dependency
+```shell
+$ pipenv lock
+```
