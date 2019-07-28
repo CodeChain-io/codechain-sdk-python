@@ -71,7 +71,7 @@ We use a JSON file to save an encrypted private key. You can find the file in `.
 - Add the main repository as a remote to update later:
 - Create a virtualenv using pipenv:
 ```shell
-$ pipenv install --dev
+$ make init
 ```
 - Install the pre-commit hooks:
 ```shell
@@ -91,4 +91,8 @@ and specify it to the `setup.py`
 - lock the dependency
 ```shell
 $ pipenv lock
+```
+### Run test cases
+```shell
+$ make test
 ```
