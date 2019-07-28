@@ -6,7 +6,9 @@ from setuptools import setup
 here = os.path.abspath(os.path.dirname(__file__))
 
 about = {}
-with open(os.path.join(here, "codechain", "__version__.py"), "r", "utf-8") as f:
+with open(
+    os.path.join(here, "codechain", "__version__.py"), "r", encoding="utf-8"
+) as f:
     exec(f.read(), about)
 
 with io.open("README.md", "rt", encoding="utf8") as f:

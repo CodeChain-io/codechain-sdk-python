@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ee5725a56949e7c8875eb7a7dacb948343f5a6045e5910724b9b8e0b2aca5815"
+            "sha256": "abd40efca233805656dc217715d21d3f29558375342b18eee985ceb28e0c2591"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -22,6 +22,10 @@
             ],
             "markers": "implementation_name == 'cpython'",
             "version": "==0.10.0"
+        },
+        "e1839a8": {
+            "editable": true,
+            "path": "."
         },
         "eth-hash": {
             "hashes": [
@@ -49,7 +53,6 @@
                 "sha256:0505fd53278cb4a3ea6baf1b658357ac209bdcdd1b316ac90050c40f669ceacc",
                 "sha256:ebe80a03c50e3d6aac47f44ddd45048bb99e411203cd764f5da1330e6d83821c"
             ],
-            "index": "pypi",
             "version": "==1.1.0"
         },
         "toolz": {
@@ -76,10 +79,10 @@
         },
         "importlib-metadata": {
             "hashes": [
-                "sha256:6dfd58dfe281e8d240937776065dd3624ad5469c835248219bd16cf2e12dbeb7",
-                "sha256:cb6ee23b46173539939964df59d3d72c3e0c1b5d54b84f1d8a7e912fe43612db"
+                "sha256:23d3d873e008a513952355379d93cbcab874c58f4f034ff657c7a87422fa64e8",
+                "sha256:80d2de76188eabfbfcf27e6a37342c2827801e59c4cc14b0371c56fed43820e3"
             ],
-            "version": "==0.18"
+            "version": "==0.19"
         },
         "more-itertools": {
             "hashes": [
