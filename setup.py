@@ -16,7 +16,7 @@ with io.open("README.md", "rt", encoding="utf8") as f:
 
 packages = ["codechain"]
 
-requires = ["rlp"]
+requires = ["rlp", "coincurve"]
 
 setup(
     name=about["__title__"],
