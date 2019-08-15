@@ -4,7 +4,7 @@ from coincurve import PrivateKey, PublicKey
 
 def generate_private_key():
     privkey = PrivateKey()
-    return bytes(bytearray.fromhex(privkey.to_hex())
+    return bytes(bytearray.fromhex(privkey.to_hex()))
 
 
 # Gets public key from private key.
