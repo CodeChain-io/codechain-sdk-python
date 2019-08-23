@@ -1,4 +1,6 @@
-from coincurve import PrivateKey, PublicKey
+from coincurve import PrivateKey
+from coincurve import PublicKey
+from coincurve import verify_signature
 
 
 # Gets ECDSA signature for message from private key.
@@ -29,7 +31,8 @@ def verify_ecdsa(message, signature, pub):
     if not isinstance(signature, (bytes, bytearray)):
         raise TypeError(f"Invalid signature key: {signature}")
     if len(signature) != 65:
-        raise ValueError(f"Invalid length signature key: {len(signature)} != 65")
+        raise ValueError(
+            f"Invalid length signature key: {len(signature)} != 65")
     if not isinstance(pub, (bytes, bytearray)):
         raise TypeError(f"Invalid signature key: {pub}")
     if len(pub) != 64:
@@ -37,13 +40,17 @@ def verify_ecdsa(message, signature, pub):
 
     pubkey = PublicKey(b"\x04" + pub)
 
-    return pubkey.verify(signature, message, hasher=None)
+    return verify_signature(
+        signature, message, pubkey.format(compressed=False), hasher=None
+    )
 
 
 # Gets public key from the message and ECDSA signature.
 
 
 def recover_ecdsa(message, signature):
+
+
 if not isinstance(message, (bytes, bytearray)):
         raise TypeError(f"Invalid message: {message}")
     if len(message) != 32:
