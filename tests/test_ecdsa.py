@@ -1,4 +1,5 @@
 import pytest
+from coincurve.utils import der_to_pem
 
 from codechain.crypto import generate_private_key
 from codechain.crypto import get_public_from_private
