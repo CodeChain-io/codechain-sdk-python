@@ -8,7 +8,39 @@ Not prepared
 
 ## Getting Started (For SDK developers)
 
-Not prepared
+### Submitting patches
+- Use `Black`_ to autoformat your code. This should be done for you as a git `pre-commit`_ hook.
+
+### First time setup
+- Clone your GitHub fork locally:
+- Add the main repository as a remote to update later:
+- Create a virtualenv using pipenv:
+```shell
+$ make init
+```
+- Install the pre-commit hooks:
+```shell
+$ pre-commit install --install-hooks
+```
+### Add dependency
+- Install the dependency using pipenv
+1. In the test environment
+```shell
+$ pipenv install [package] --dev
+```
+2. In the production
+```shell
+$ pip3 install [package]
+```
+and specify it to the `setup.py`
+- lock the dependency
+```shell
+$ pipenv lock
+```
+### Run test cases
+```shell
+$ make test
+```
 
 ## Submodules
 
@@ -63,36 +95,3 @@ codechain-keystore is a private key management module. It saves CodeChain's asse
 #### How your private key is saved
 
 We use a JSON file to save an encrypted private key. You can find the file in `./keystore.db`.
-
-## Submitting patches
-- Use `Black`_ to autoformat your code. This should be done for you as a git `pre-commit`_ hook.
-### First time setup
-- Clone your GitHub fork locally:
-- Add the main repository as a remote to update later:
-- Create a virtualenv using pipenv:
-```shell
-$ make init
-```
-- Install the pre-commit hooks:
-```shell
-$ pre-commit install --install-hooks
-```
-### Add dependency
-- Install the dependency using pipenv
-1. In the test environment
-```shell
-$ pipenv install [package] --dev
-```
-2. In the production
-```shell
-$ pip3 install [package]
-```
-and specify it to the `setup.py`
-- lock the dependency
-```shell
-$ pipenv lock
-```
-### Run test cases
-```shell
-$ make test
-```
