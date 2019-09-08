@@ -1,5 +1,9 @@
 import sys
 
+from .bech32 import decode as bech32_decode
+from .bech32 import encode as bech32_encode
+from .bech32 import from_words
+from .bech32 import to_words
 from .ecdsa import recover_ecdsa
 from .ecdsa import sign_ecdsa
 from .ecdsa import verify_ecdsa
