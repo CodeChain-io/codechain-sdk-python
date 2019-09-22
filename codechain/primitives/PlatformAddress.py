@@ -26,7 +26,7 @@ class PlatformAddress(typing.NamedTuple):
     @staticmethod
     def from_account_id(account_id: H160, **kwargs):
         network_id = kwargs.get("network_id", "cc")
-        version = kwargs.get("version", "1")
+        version = int(kwargs.get("version", "1"))
 
         if not H160.check(account_id):
             raise ValueError(
