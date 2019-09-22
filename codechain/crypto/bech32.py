@@ -33,7 +33,7 @@ def bech32_create_checksum(hrp, data):
 def bech32_encode(hrp, data):
     """Compute a Bech32 string given HRP and data values."""
     combined = data + bech32_create_checksum(hrp, data)
-    return hrp + "1" + "".join([CHARSET[d] for d in combined])
+    return hrp + "".join([CHARSET[d] for d in combined])
 
 
 def bech32_decode(bech):
@@ -43,15 +43,13 @@ def bech32_decode(bech):
     ):
         return (None, None)
     bech = bech.lower()
-    pos = bech.rfind("1")
-    if pos < 1 or pos + 7 > len(bech) or len(bech) > 90:
+
+    if not all(x in CHARSET for x in bech[3:]):
         return (None, None)
-    if not all(x in CHARSET for x in bech[pos + 1 :]):
-        return (None, None)
-    hrp = bech[:pos]
-    data = [CHARSET.find(x) for x in bech[pos + 1 :]]
+    hrp = bech[:3]
+    data = [CHARSET.find(x) for x in bech[3:]]
     if not bech32_verify_checksum(hrp, data):
-        return (None, None)
+        raise ValueError("Invalid checksum")
     return (hrp, data[:-6])
 
 
@@ -81,16 +79,14 @@ def convertbits(data, frombits, tobits, pad=True):
 def decode(hrp, addr):
     """Decode a segwit address."""
     hrpgot, data = bech32_decode(addr)
+
     if hrpgot != hrp:
         return (None, None)
     decoded = convertbits(data, 5, 8, False)
-    if decoded is None or len(decoded) < 2 or len(decoded) > 40:
+    if decoded is None or len(decoded) < 2:
         return (None, None)
-    if data[0] > 16:
-        return (None, None)
-    if data[0] == 0 and len(decoded) != 20 and len(decoded) != 32:
-        return (None, None)
-    return (data[0], decoded)
+
+    return decoded
 
 
 def encode(hrp, witprog):
