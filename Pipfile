@@ -6,8 +6,4 @@ verify_ssl = true
 [dev-packages]
 pytest = "*"
 
-[packages]
 codechain = {editable = true,path = "."}
-
-[requires]
-python_version = "3.6"
