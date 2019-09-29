@@ -1,6 +1,7 @@
 import io
 import os
 
+from setuptools import find_packages
 from setuptools import setup
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -13,8 +14,6 @@ with open(
 
 with io.open("README.md", "rt", encoding="utf8") as f:
     readme = f.read()
-
-packages = ["codechain"]
 
 requires = ["rlp", "coincurve"]
 
@@ -31,8 +30,7 @@ setup(
     author_email=about["__author_email__"],
     description=about["__description__"],
     long_description=readme,
-    packages=packages,
-    package_dir={"codechain": "codechain"},
+    packages=find_packages(),
     license=about["__license__"],
     install_requires=requires,
     extras_require={"dev": ["pytest"]},
