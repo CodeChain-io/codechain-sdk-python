@@ -62,6 +62,13 @@ class _HexString(bytes):
     def __str__(self):
         return binascii.hexlify(self).decode("ascii")
 
+    def to_string(self, prefix: bool = False):
+        return (
+            "0x" + binascii.hexlify(self).decode("ascii")
+            if prefix
+            else binascii.hexlify(self).decode("ascii")
+        )
+
     def to_json(self):
         return binascii.hexlify(self).decode("ascii")
 
