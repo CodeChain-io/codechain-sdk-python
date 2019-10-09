@@ -154,5 +154,16 @@ def test_to_json_and_to_stirng(Hxxx, byte_length):
     zero = "00" * byte_length
     hex_value = Hxxx(zero)
 
-    assert str(hex_value) == zero
     assert hex_value.to_json() == zero
+
+
+@pytest.mark.parametrize(
+    "Hxxx, byte_length", [(H128, 16), (H160, 20), (H256, 32), (H512, 64)]
+)
+def test_to_string(Hxxx, byte_length):
+    zero = "00" * byte_length
+    hex_value = Hxxx(zero)
+
+    assert str(hex_value) == zero
+    assert hex_value.to_string() == zero
+    assert hex_value.to_string(True) == "0x" + zero
