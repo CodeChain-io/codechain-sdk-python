@@ -1,5 +1,7 @@
 import sys
 
+from .Pbkdf2 import pbkdf2
+
 # -------
 # Pythons
 # -------
