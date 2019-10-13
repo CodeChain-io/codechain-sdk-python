@@ -16,6 +16,8 @@ from .hash import blake256_with_key
 from .hash import ripemd160
 from .key import generate_private_key
 from .key import get_public_from_private
+from .utility import get_account_id_from_private
+from .utility import get_account_id_from_public
 
 # -------
 # Pythons
