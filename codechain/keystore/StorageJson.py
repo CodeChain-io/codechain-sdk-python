@@ -7,6 +7,8 @@ from Crypto.Util import Counter
 
 from ..crypto import blake256
 from ..crypto import get_public_from_private
+from .Errors import ErrorCode
+from .Errors import KeystoreError
 from .keys import key_from_public_key
 from .KeyType import KeyType
 from .Pbkdf2 import pbkdf2
@@ -26,11 +28,7 @@ def encode(private_key: bytes, key_type: KeyType, passphrase: str, meta: str):
         "prf": "hmac-sha256",
     }
     derived_key = pbkdf2(
-        passphrase.encode("utf-8"),
-        salt,
-        kdf_params.get("c"),
-        kdf_params.get("dklen"),
-        "sha256",
+        passphrase.encode("utf-8"), salt, kdf_params["c"], kdf_params["dklen"], "sha256"
     )
     ctr = Counter.new(128, initial_value=int.from_bytes(iv, byteorder="big"))
     cipher = AES.new(derived_key[:16], AES.MODE_CTR, counter=ctr)
@@ -51,3 +49,29 @@ def encode(private_key: bytes, key_type: KeyType, passphrase: str, meta: str):
         "address": address,
         "meta": meta,
     }
+
+
+def decode(json, passphrase: str) -> str:
+    kdfparams = json["crypto"]["kdfparams"]
+    derivedKey = pbkdf2(
+        passphrase.encode("utf-8"),
+        bytes.fromhex(kdfparams["salt"]),
+        kdfparams["c"],
+        kdfparams["dklen"],
+        "sha256",
+    )
+    ciphertext = bytes.fromhex(json["crypto"]["ciphertext"])
+    mac = blake256(derivedKey[16:32] + ciphertext)
+
+    if mac != json["crypto"]["mac"]:
+        raise KeystoreError(ErrorCode.DECRYPTIONFAILED)
+
+    if json["crypto"]["cipher"] != "aes-128-ctr":
+        raise KeystoreError(ErrorCode.DECRYPTIONFAILED)
+
+    iv = int(json["crypto"]["cipherparams"]["iv"], 16)
+    ctr = Counter.new(128, initial_value=iv)
+    decipher = AES.new(derivedKey[0:16], AES.MODE_CTR, counter=ctr)
+    private_key = decipher.decrypt(ciphertext)
+
+    return binascii.hexlify(private_key).decode("ascii")
