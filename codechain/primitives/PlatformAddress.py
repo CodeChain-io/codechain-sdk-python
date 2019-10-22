@@ -33,23 +33,20 @@ class PlatformAddress(typing.NamedTuple):
                 f"Invalid account_id for creating PlatformAddress: {account_id}"
             )
         if version != 1:
-            raise ValueError(
-                f"Unsupported version for PlatformAddress: {version}")
+            raise ValueError(f"Unsupported version for PlatformAddress: {version}")
         if not isinstance(network_id, str) or len(network_id) != 2:
             raise ValueError(
                 f"Unsupported network_id for PlatformAddress: {network_id}"
             )
 
         return PlatformAddress(
-            account_id, bech32_encode(
-                network_id + "c", bytes([version]) + account_id)
+            account_id, bech32_encode(network_id + "c", bytes([version]) + account_id)
         )
 
     @staticmethod
     def from_string(address: str):
         if not isinstance(address, str):
-            raise ValueError(
-                f"Expected PlatformAddress string but found: {address}")
+            raise ValueError(f"Expected PlatformAddress string but found: {address}")
         elif address[2] != "c":
             raise ValueError(f"Unknown prefix for PlatformAddress: {address}")
 
@@ -57,8 +54,7 @@ class PlatformAddress(typing.NamedTuple):
         version = byte[0]
 
         if version != 1:
-            raise ValueError(
-                f"Unsupported version for PlatformAddress: {version}")
+            raise ValueError(f"Unsupported version for PlatformAddress: {version}")
 
         account_id = H160(byte[1:])
 
@@ -66,7 +62,11 @@ class PlatformAddress(typing.NamedTuple):
 
     @staticmethod
     def check(address):
-        return True if isinstance(address, PlatformAddress) else PlatformAddress.check_string(address)
+        return (
+            True
+            if isinstance(address, PlatformAddress)
+            else PlatformAddress.check_string(address)
+        )
 
     @staticmethod
     def ensure(address):

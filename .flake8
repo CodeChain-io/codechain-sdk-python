@@ -1,8 +1,10 @@
 [flake8]
-ignore = E501,F403,F401
+ignore = E501,F403,F401,E203,W503
     # E501: Line too long
     # F403: Unable to detect undefined names
     # F401: Imported but unused
+    # E203: whitespace before ':', See Readme in black. https://github.com/psf/black/blob/master/README.md#slices
+    # W503: line break before binary operator. https://github.com/psf/black/blob/master/README.md#line-breaks--binary-operators
 max-line-length = 120
 max-complexity = 18
 select = B,C,E,F,W,T4,B9
