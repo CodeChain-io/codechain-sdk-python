@@ -36,13 +36,19 @@ def test_blake160_with_key(value):
 @pytest.mark.parametrize("value", ["deadbeef"])
 def test_blake256(value):
     result = blake256(value)
-    assert result.hex() == "f3e925002fed7cc0ded46842569eb5c90c910c091d8d04a1bdf96e0db719fd91"
+    assert (
+        result.hex()
+        == "f3e925002fed7cc0ded46842569eb5c90c910c091d8d04a1bdf96e0db719fd91"
+    )
 
 
 @pytest.mark.parametrize("value", ["deadbeef"])
 def test_blake256_with_key(value):
     result = blake256_with_key(value, b"\x00" * 16)
-    assert result.hex() == "f247b4a8963b51a380cd5065a62c5b847fc84de899c41cd9d9dd0133d8980602"
+    assert (
+        result.hex()
+        == "f247b4a8963b51a380cd5065a62c5b847fc84de899c41cd9d9dd0133d8980602"
+    )
 
 
 @pytest.mark.parametrize("value", ["deadbeef"])

@@ -79,7 +79,7 @@ class _UnsignedInteger(int):
         try:
             value = int(param, 0)
             return 0 <= value <= cls.MAX_VALUE
-        except:
+        except Exception:
             return False
 
     @classmethod

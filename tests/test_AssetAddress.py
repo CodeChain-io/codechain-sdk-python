@@ -52,7 +52,7 @@ def test_from_type_and_payload(
             AssetAddress.from_type_and_payload(
                 network_type, payload, network_id=network_id, version=version
             )
-        except Exception as e:
+        except Exception as e:  # noqa : E841
             raise pytest.fail(f"Unexpected exception: {e}")
 
 
@@ -93,7 +93,7 @@ def test_from_type_and_payload_mutisig():
 
 def from_string():
     assert AssetAddress.from_string(validAddress) == validAddress
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(ValueError):
         AssetAddress.from_string("cccqyqjmvml2hdp8s8xzqnr57r8ywtduy2u6gcq89vff")
 
 

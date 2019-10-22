@@ -36,15 +36,12 @@ class AssetAddress:
         version = kwargs.get("version", 1)
 
         if version != 1:
-            raise ValueError(
-                f"Unsupported version for asset address: {version}")
+            raise ValueError(f"Unsupported version for asset address: {version}")
         if network_type < 0x00 or network_type > 0x03:
-            raise ValueError(
-                f"Unsupported type for asset address: {network_type}")
+            raise ValueError(f"Unsupported type for asset address: {network_type}")
 
         address = bech32_encode(
-            network_id + "a", bytes([version, network_type]
-                                    ) + encode_payload(payload)
+            network_id + "a", bytes([version, network_type]) + encode_payload(payload)
         )
 
         return AssetAddress(network_type, payload, address)
@@ -52,15 +49,13 @@ class AssetAddress:
     @staticmethod
     def from_string(address: str):
         if address[2] != "a":
-            raise ValueError(
-                f"The prefix is unknown for asset address: {address}")
+            raise ValueError(f"The prefix is unknown for asset address: {address}")
 
         byte = bech32_decode(address[:3], address)
         version = byte[0]
 
         if version != 1:
-            raise ValueError(
-                f"Unsupported version for asset address: {address}")
+            raise ValueError(f"Unsupported version for asset address: {address}")
 
         address_type = byte[1]
 
@@ -77,15 +72,20 @@ class AssetAddress:
             pubkeys = []
             if len(payload) % 20 != 0:
                 raise ValueError(
-                    f"Invalid pubkeys length which should be a multiple of 20 but {len(payload)}")
+                    f"Invalid pubkeys length which should be a multiple of 20 but {len(payload)}"
+                )
             for i in range(0, len(payload), 20):
-                pubkeys.append(H160(payload[i: i + 20]))
+                pubkeys.append(H160(payload[i : i + 20]))
 
             return AssetAddress(address_type, MultiSig(n, m, pubkeys), address)
 
     @staticmethod
     def check(address):
-        return True if isinstance(address, AssetAddress) else AssetAddress.check_string(address)
+        return (
+            True
+            if isinstance(address, AssetAddress)
+            else AssetAddress.check_string(address)
+        )
 
     @staticmethod
     def check_string(address: str):
@@ -95,7 +95,11 @@ class AssetAddress:
 
     @staticmethod
     def ensure(address):
-        return address if isinstance(address, AssetAddress) else AssetAddress.from_string(address)
+        return (
+            address
+            if isinstance(address, AssetAddress)
+            else AssetAddress.from_string(address)
+        )
 
     def __str__(self) -> str:
         return self.value
