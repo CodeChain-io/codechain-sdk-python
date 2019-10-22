@@ -3,6 +3,6 @@ ignore = E501,F403,F401
     # E501: Line too long
     # F403: Unable to detect undefined names
     # F401: Imported but unused
-max-line-length = 80
+max-line-length = 120
 max-complexity = 18
 select = B,C,E,F,W,T4,B9

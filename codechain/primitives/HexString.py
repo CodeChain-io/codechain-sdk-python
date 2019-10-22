@@ -79,23 +79,19 @@ class _HexString(bytes):
 
 class H128(_HexString):
     LENGTH = 16
-    ZERO = bytes.fromhex("00000000000000000000000000000000")
+    ZERO = bytes.fromhex("00" * LENGTH)
 
 
 class H160(_HexString):
     LENGTH = 20
-    ZERO = bytes.fromhex("0000000000000000000000000000000000000000")
+    ZERO = bytes.fromhex("00" * LENGTH)
 
 
 class H256(_HexString):
     LENGTH = 32
-    ZERO = bytes.fromhex(
-        "0000000000000000000000000000000000000000000000000000000000000000"
-    )
+    ZERO = bytes.fromhex("00" * LENGTH)
 
 
 class H512(_HexString):
     LENGTH = 64
-    ZERO = bytes.fromhex(
-        "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
-    )
+    ZERO = bytes.fromhex("00" * LENGTH)
