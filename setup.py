@@ -15,7 +15,7 @@ with open(
 with io.open("README.md", "rt", encoding="utf8") as f:
     readme = f.read()
 
-requires = ["rlp", "coincurve"]
+requires = ["rlp", "coincurve", "dataclasses; python_version < '3.7'"]
 
 setup(
     name=about["__title__"],
