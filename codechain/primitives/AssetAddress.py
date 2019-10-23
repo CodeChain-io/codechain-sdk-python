@@ -1,7 +1,6 @@
 import re
+from dataclasses import dataclass
 from typing import List
-from typing import NamedTuple
-from typing import Tuple
 from typing import Union
 
 from ..crypto import bech32_decode
@@ -9,7 +8,8 @@ from ..crypto import bech32_encode
 from .HexString import H160
 
 
-class MultiSig(NamedTuple):
+@dataclass
+class MultiSig:
     n: int
     m: int
     pubkeys: List[H160]
