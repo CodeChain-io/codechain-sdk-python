@@ -1,5 +1,5 @@
 import re
-import typing
+from dataclasses import dataclass
 
 from ..crypto import bech32_decode
 from ..crypto import bech32_encode
@@ -8,7 +8,8 @@ from .HexString import H160
 from .HexString import H512
 
 
-class PlatformAddress(typing.NamedTuple):
+@dataclass
+class PlatformAddress:
     account_id: H160
     value: str
 
