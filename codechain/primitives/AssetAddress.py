@@ -24,7 +24,9 @@ class AssetAddress:
         if isinstance(payload, (H160, str)):
             self.payload = H160(payload)
         else:
-            n, m, pubkeys = payload
+            n = payload.n
+            m = payload.m
+            pubkeys = payload.pubkeys
             self.payload = (n, m, list(map(lambda p: H160(p), pubkeys)))
         self.value = address
 
@@ -115,5 +117,7 @@ def encode_payload(payload: Union[H160, str, MultiSig]) -> bytes:
     if isinstance(payload, (H160, str)):
         return H160(payload)
     else:
-        n, m, pubkeys = payload
+        n = payload.n
+        m = payload.m
+        pubkeys = payload.pubkeys
         return bytes([n, m]) + b"".join(map(lambda p: H160(p), pubkeys))
