@@ -1,5 +1,4 @@
 import re
-
 from dataclasses import dataclass
 
 from ..crypto import bech32_decode
