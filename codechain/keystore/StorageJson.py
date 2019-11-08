@@ -12,7 +12,7 @@ from .KeyType import KeyType
 from .Pbkdf2 import pbkdf2
 
 
-def encode(private_key: str, key_type: KeyType, passphrase: str, meta: str):
+def encode(private_key: bytes, key_type: KeyType, passphrase: str, meta: str):
     public_key = get_public_from_private(private_key)
     address = key_from_public_key(key_type, public_key)
     salt = os.urandom(32)
