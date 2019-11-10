@@ -4,12 +4,16 @@ repos:
     hooks:
     - id: black
       language_version: python3
+      args:
+        - --diff
   - repo: https://gitlab.com/pycqa/flake8
     rev: 3.7.7
     hooks:
       - id: flake8
         additional_dependencies: [flake8-bugbear]
         language_version: python3
+        args:
+          - --diff
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.2.3
     hooks:
