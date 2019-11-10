@@ -1,7 +1,8 @@
 import re
-from dataclasses import dataclass
 from typing import List
 from typing import Union
+
+from dataclasses import dataclass
 
 from ..crypto import bech32_decode
 from ..crypto import bech32_encode
