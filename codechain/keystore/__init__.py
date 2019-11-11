@@ -2,6 +2,7 @@ import sys
 
 from .HDStorageJson import decode as hd_decode
 from .HDStorageJson import encode as hd_encode
+from .KeystoreManager import keystoreManager
 from .KeyType import get_table_name
 from .KeyType import KeyType
 from .Pbkdf2 import pbkdf2
