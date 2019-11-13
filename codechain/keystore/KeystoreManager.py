@@ -7,6 +7,7 @@ from ..crypto import get_public_from_private
 from ..crypto import sign_ecdsa
 from .Errors import ErrorCode
 from .Errors import KeystoreError
+from .keys import key_from_public_key
 from .KeyType import get_table_name
 from .KeyType import KeyType
 from .StorageJson import decode
@@ -110,15 +111,7 @@ class keystoreManager:
         storage = encode(private_key, self.key_type, passphrase, meta)
 
         self.db[self.key_type.value] = self.db[self.key_type.value] + [storage]
-        return self.key_from_public_key(public_key)
-
-    def key_from_public_key(self, public_key: str):
-        if self.key_type == KeyType.PLATFORM:
-            return get_account_id_from_public(public_key)
-        elif self.key_type == KeyType.ASSET:
-            return blake160(public_key)
-        else:
-            raise ValueError("Invalid key type")
+        return key_from_public_key(self.key_type, public_key)
 
     def remove_key(self, key: str):
         rows = self.db[self.key_type.value]
