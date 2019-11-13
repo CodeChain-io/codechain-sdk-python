@@ -1,5 +1,6 @@
 import sys
 
+from .CCkey import CCkey
 from .HDStorageJson import decode as hd_decode
 from .HDStorageJson import encode as hd_encode
 from .KeystoreManager import keystoreManager
