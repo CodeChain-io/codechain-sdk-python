@@ -15,12 +15,9 @@ from .StorageJson import encode
 
 
 class keystoreManager:
-    def __init__(self, key_type: KeyType, db_path: str):
-        self.db = Database(db_path)
+    def __init__(self, key_type: KeyType, db):
+        self.db = db
         self.key_type = key_type
-
-        data = {"meta": "", "platform": [], "asset": [], "hdwseed": []}
-        self.db.data(dictionary=data)
 
     def get_keys(self) -> list:
         rows = self.db[self.key_type.value]
