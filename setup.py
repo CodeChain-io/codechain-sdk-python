@@ -21,6 +21,7 @@ requires = [
     "dataclasses; python_version < '3.7'",
     "pycryptodome",
     "jsondatabase",
+    "jsonrpcclient[requests]",
 ]
 
 setup(
