@@ -1,5 +1,7 @@
 import sys
 
+from .rpc import Rpc
+
 # -------
 # Pythons
 # -------
