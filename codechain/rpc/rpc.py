@@ -29,10 +29,10 @@ class Rpc:
         payload = Request("version")
         response = self.client.send(payload)
 
-        return response.result
+        return response.data.result
 
     def commit_hash(self):
         payload = Request("commitHash")
         response = self.client.send(payload)
 
-        return response.result
+        return response.data.result

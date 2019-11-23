@@ -11,31 +11,31 @@ class Devel:
         payload = Request("devel_getStateTrieKeys", offset=offset, limit=limit)
         response = self.client.send(payload)
 
-        return response.result
+        return response.data.result
 
     def get_state_trie_value(self, key: str):
         payload = Request("devel_getStateTrieValue", key=key)
         response = self.client.send(payload)
 
-        return response.result
+        return response.data.result
 
     def start_sealing(self):
         payload = Request("devel_startSealing")
         response = self.client.send(payload)
 
-        return response.result
+        return response.data.result
 
     def stop_sealing(self):
         payload = Request("devel_stopSealing")
         response = self.client.send(payload)
 
-        return response.result
+        return response.data.result
 
     def get_block_sync_peers(self):
         payload = Request("devel_getBlockSyncPeers")
         response = self.client.send(payload)
 
-        return response.result
+        return response.data.result
 
     def test_tps(self, count: int, seed: int, option: str):
         if (
@@ -51,4 +51,4 @@ class Devel:
         payload = Request("devel_testTPS", count=count, seed=seed, option=option)
         response = self.client.send(payload)
 
-        return response.result
+        return response.data.result
