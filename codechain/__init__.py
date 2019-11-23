@@ -3,6 +3,7 @@ import sys
 from .crypto import *
 from .keystore import *
 from .primitives import *
+from .rpc import *
 
 # -------
 # Pythons
