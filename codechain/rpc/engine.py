@@ -11,19 +11,19 @@ class Engine:
         payload = Request("engine_getCoinbase")
         response = self.client.send(payload)
 
-        return response.result
+        return response.data.result
 
     def get_block_reward(self, block_number: Union[int, None]):
         payload = Request("engine_getBlockReward", blockNumber=block_number)
         response = self.client.send(payload)
 
-        return response.result
+        return response.data.result
 
     def get_recommended_confirmation(self):
         payload = Request("engine_getRecommendedConfirmation")
         response = self.client.send(payload)
 
-        return response.result
+        return response.data.result
 
     def get_custom_action_data(
         self, handler_id: int, data_bytes: str, block_number: Union[int, None]
@@ -36,4 +36,4 @@ class Engine:
         )
         response = self.client.send(payload)
 
-        return response.result
+        return response.data.result

@@ -11,19 +11,19 @@ class Mempool:
         payload = Request("mempool_sendSignedTransaction", tx=tx)
         response = self.client.send(payload)
 
-        return response.result
+        return response.data.result
 
     def get_error_hint(self, transaction_hash: str):
         payload = Request("mempool_getErrorHint", transactionHash=transaction_hash)
         response = self.client.send(payload)
 
-        return response.result
+        return response.data.result
 
     def get_transaction_results_by_tracker(self, tracker: str):
         payload = Request("mempool_getTransactionResultsByTracker", tracker)
         response = self.client.send(payload)
 
-        return response.result
+        return response.data.result
 
     def get_pending_transactions(
         self, tx_from: Union[int, None], tx_to: Union[int, None]
@@ -33,4 +33,4 @@ class Mempool:
         )
         response = self.client.send(payload)
 
-        return response.result
+        return response.data.result
