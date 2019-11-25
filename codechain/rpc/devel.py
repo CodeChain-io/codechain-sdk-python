@@ -48,7 +48,7 @@ class Devel:
                 f"option should be one of payOnly | transferSingle | transferMultiple | payOrTransfer"
             )
 
-        payload = Request("devel_testTPS", count, seed, option)
+        payload = Request("devel_testTPS", [count, seed, option])
         response = self.client.send(payload)
 
         return response.data.result
