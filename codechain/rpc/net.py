@@ -8,36 +8,31 @@ class Net:
         self.client = client
 
     def locak_key_for(self, address: str, port: int):
-        payload = Request("net_localKeyFor", address=address, port=port)
+        payload = Request("net_localKeyFor", address, port)
         response = self.client.send(payload)
 
         return response.data.result
 
     def register_remote_key_for(self, address: str, port: int, remote_public_key: str):
-        payload = Request(
-            "net_registerRemoteKeyFor",
-            address=address,
-            port=port,
-            remotePublicKey=remote_public_key,
-        )
+        payload = Request("net_registerRemoteKeyFor", address, port, remote_public_key,)
         response = self.client.send(payload)
 
         return response.data.result
 
     def connect(self, address: str, port: int):
-        payload = Request("net_connect", address=address, port=port)
+        payload = Request("net_connect", address, port)
         response = self.client.send(payload)
 
         return response.data.result
 
     def is_connected(self, address: str, port: int):
-        payload = Request("net_isConnected", address=address, port=port)
+        payload = Request("net_isConnected", address, port)
         response = self.client.send(payload)
 
         return response.data.result
 
     def disconnect(self, address: str, port: int):
-        payload = Request("net_disconnect", address=address, port=port)
+        payload = Request("net_disconnect", address, port)
         response = self.client.send(payload)
 
         return response.data.result
@@ -61,25 +56,25 @@ class Net:
         return response.data.result
 
     def add_to_whitelist(self, address: str, tag: Union[str, None]):
-        payload = Request("net_addToWhitelist", address=address, tag=tag)
+        payload = Request("net_addToWhitelist", address, tag)
         response = self.client.send(payload)
 
         return response.data.result
 
     def remove_from_whitelist(self, address: str):
-        payload = Request("net_removeFromWhitelist", address=address)
+        payload = Request("net_removeFromWhitelist", address)
         response = self.client.send(payload)
 
         return response.data.result
 
     def add_to_blacklist(self, address: str, tag: Union[str, None]):
-        payload = Request("net_addToBlacklist", address=address, tag=tag)
+        payload = Request("net_addToBlacklist", address, tag)
         response = self.client.send(payload)
 
         return response.data.result
 
     def remove_from_blacklist(self, address: str):
-        payload = Request("net_removeFromBlacklist", address=address)
+        payload = Request("net_removeFromBlacklist", address)
         response = self.client.send(payload)
 
         return response.data.result
@@ -115,7 +110,7 @@ class Net:
         return response.data.result
 
     def get_blacklist(self, address: str):
-        payload = Request("net_getBlacklist", address=address)
+        payload = Request("net_getBlacklist", address)
         response = self.client.send(payload)
 
         return response.data.result

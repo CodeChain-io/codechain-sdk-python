@@ -8,13 +8,13 @@ class Devel:
         self.client = client
 
     def get_state_trie_keys(self, offset: int, limit: int):
-        payload = Request("devel_getStateTrieKeys", offset=offset, limit=limit)
+        payload = Request("devel_getStateTrieKeys", offset, limit)
         response = self.client.send(payload)
 
         return response.data.result
 
     def get_state_trie_value(self, key: str):
-        payload = Request("devel_getStateTrieValue", key=key)
+        payload = Request("devel_getStateTrieValue", key)
         response = self.client.send(payload)
 
         return response.data.result
@@ -48,7 +48,7 @@ class Devel:
                 f"option should be one of payOnly | transferSingle | transferMultiple | payOrTransfer"
             )
 
-        payload = Request("devel_testTPS", count=count, seed=seed, option=option)
+        payload = Request("devel_testTPS", count, seed, option)
         response = self.client.send(payload)
 
         return response.data.result
