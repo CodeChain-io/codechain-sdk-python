@@ -8,13 +8,13 @@ class Mempool:
         self.client = client
 
     def send_signed_transaction(self, tx: str):
-        payload = Request("mempool_sendSignedTransaction", tx=tx)
+        payload = Request("mempool_sendSignedTransaction", tx)
         response = self.client.send(payload)
 
         return response.data.result
 
     def get_error_hint(self, transaction_hash: str):
-        payload = Request("mempool_getErrorHint", transactionHash=transaction_hash)
+        payload = Request("mempool_getErrorHint", transaction_hash)
         response = self.client.send(payload)
 
         return response.data.result
@@ -28,9 +28,7 @@ class Mempool:
     def get_pending_transactions(
         self, tx_from: Union[int, None], tx_to: Union[int, None]
     ):
-        payload = Request(
-            "mempool_getPendingTransactions", **{"from": tx_from, "to": tx_to}
-        )
+        payload = Request("mempool_getPendingTransactions", tx_from, tx_to)
         response = self.client.send(payload)
 
         return response.data.result

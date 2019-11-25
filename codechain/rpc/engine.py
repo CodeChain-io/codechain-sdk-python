@@ -14,7 +14,7 @@ class Engine:
         return response.data.result
 
     def get_block_reward(self, block_number: Union[int, None]):
-        payload = Request("engine_getBlockReward", blockNumber=block_number)
+        payload = Request("engine_getBlockReward", block_number)
         response = self.client.send(payload)
 
         return response.data.result
@@ -29,10 +29,7 @@ class Engine:
         self, handler_id: int, data_bytes: str, block_number: Union[int, None]
     ):
         payload = Request(
-            "engine_getCustomActionData",
-            handlerID=handler_id,
-            bytes=data_bytes,
-            blockNumber=block_number,
+            "engine_getCustomActionData", handler_id, data_bytes, block_number,
         )
         response = self.client.send(payload)
 
