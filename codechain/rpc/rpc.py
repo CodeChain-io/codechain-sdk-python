@@ -10,7 +10,7 @@ from .net import Net
 
 
 class Rpc:
-    def __init__(self, node: str, devel: bool):
+    def __init__(self, node: str, devel=False):
         self.client = HTTPClient(node)
 
         self.account = Account(self.client)
