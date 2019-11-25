@@ -23,8 +23,8 @@ class Account:
 
         return response.data.result
 
-    def unlock(self, account, passphrase):
-        payload = Request("account_unlock", account, passphrase)
+    def unlock(self, account, passphrase, duration):
+        payload = Request("account_unlock", account, passphrase, duration)
         response = self.client.send(payload)
 
         return response.data.result
