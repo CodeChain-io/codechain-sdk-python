@@ -1,3 +1,5 @@
+import binascii
+
 from jsonrpcclient.requests import Request
 
 
@@ -18,6 +20,8 @@ class Account:
         return response.data.result
 
     def import_raw(self, secret, passphrase):
+        if isinstance(secret, bytes):
+            secret = "0x" + binascii.hexlify(secret).decode("ascii")
         payload = Request("account_importRaw", secret, passphrase)
         response = self.client.send(payload)
 

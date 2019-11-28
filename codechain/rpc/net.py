@@ -1,3 +1,4 @@
+import binascii
 from typing import Union
 
 from jsonrpcclient.requests import Request
@@ -13,7 +14,11 @@ class Net:
 
         return response.data.result
 
-    def register_remote_key_for(self, address: str, port: int, remote_public_key: str):
+    def register_remote_key_for(self, address: str, port: int, remote_public_key):
+        if isinstance(remote_public_key, bytes):
+            remote_public_key = "0x" + binascii.hexlify(remote_public_key).decode(
+                "ascii"
+            )
         payload = Request("net_registerRemoteKeyFor", address, port, remote_public_key,)
         response = self.client.send(payload)
 
@@ -115,7 +120,7 @@ class Net:
 
         return response.data.result
 
-    def recent_network_usage(self, address: str):
+    def recent_network_usage(self):
         payload = Request("net_recentNetworkUsage")
         response = self.client.send(payload)
 
