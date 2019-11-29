@@ -84,7 +84,7 @@ class Net:
 
         return response.data.result
 
-    def enable_whitelist(self, address: str):
+    def enable_whitelist(self):
         payload = Request("net_enableWhitelist")
         response = self.client.send(payload)
 
@@ -108,14 +108,14 @@ class Net:
 
         return response.data.result
 
-    def get_whitelist(self, address: str):
+    def get_whitelist(self):
         payload = Request("net_getWhitelist")
         response = self.client.send(payload)
 
         return response.data.result
 
-    def get_blacklist(self, address: str):
-        payload = Request("net_getBlacklist", address)
+    def get_blacklist(self):
+        payload = Request("net_getBlacklist")
         response = self.client.send(payload)
 
         return response.data.result
