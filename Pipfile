@@ -5,7 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 codechain = {editable = true,path = "."}
-pytest = "*"
+
 
 [packages]
 dataclasses = {markers = "python_version < '3.7'",version = "*"}
