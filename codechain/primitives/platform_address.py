@@ -4,8 +4,8 @@ from dataclasses import dataclass
 from ..crypto import bech32_decode
 from ..crypto import bech32_encode
 from ..crypto import blake160
-from .HexString import H160
-from .HexString import H512
+from .hex_string import H160
+from .hex_string import H512
 
 
 @dataclass

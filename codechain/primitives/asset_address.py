@@ -5,7 +5,7 @@ from typing import Union
 
 from ..crypto import bech32_decode
 from ..crypto import bech32_encode
-from .HexString import H160
+from .hex_string import H160
 
 
 @dataclass

@@ -1,15 +1,15 @@
 import sys
 
-from .AssetAddress import AssetAddress
-from .AssetAddress import MultiSig
-from .HexString import H128
-from .HexString import H160
-from .HexString import H256
-from .HexString import H512
-from .PlatformAddress import PlatformAddress
-from .UnsignedInteger import U128
-from .UnsignedInteger import U256
-from .UnsignedInteger import U64
+from .asset_address import AssetAddress
+from .asset_address import MultiSig
+from .hex_string import H128
+from .hex_string import H160
+from .hex_string import H256
+from .hex_string import H512
+from .platform_address import PlatformAddress
+from .unsigned_integer import U128
+from .unsigned_integer import U256
+from .unsigned_integer import U64
 
 # -------
 # Pythons

@@ -1,14 +1,14 @@
 import sys
 
-from .CCkey import CCkey
-from .HDStorageJson import decode as hd_decode
-from .HDStorageJson import encode as hd_encode
-from .KeystoreManager import keystoreManager
-from .KeyType import get_table_name
-from .KeyType import KeyType
-from .Pbkdf2 import pbkdf2
-from .StorageJson import decode
-from .StorageJson import encode
+from .cckey import CCkey
+from .hdstorageJson import decode as hd_decode
+from .hdstorageJson import encode as hd_encode
+from .key_type import get_table_name
+from .key_type import KeyType
+from .keystore_manager import keystoreManager
+from .pbkdf2 import pbkdf2
+from .storage_json import decode
+from .storage_json import encode
 
 # -------
 # Pythons

@@ -6,17 +6,13 @@ from Crypto.Cipher import AES
 from Crypto.Util import Counter
 
 from ..crypto import blake256
-from ..crypto import get_public_from_private
-from .Errors import ErrorCode
-from .Errors import KeystoreError
-from .keys import key_from_public_key
-from .KeyType import KeyType
-from .Pbkdf2 import pbkdf2
+from .errors import ErrorCode
+from .errors import KeystoreError
+from .pbkdf2 import pbkdf2
 
 
-def encode(private_key: bytes, key_type: KeyType, passphrase: str, meta: str):
-    public_key = get_public_from_private(private_key)
-    address = key_from_public_key(key_type, public_key)
+def encode(seed: str, passphrase: str, meta: str):
+    seed_hash = blake256(seed)
     salt = os.urandom(32)
     iv = os.urandom(16)
 
@@ -32,7 +28,7 @@ def encode(private_key: bytes, key_type: KeyType, passphrase: str, meta: str):
     )
     ctr = Counter.new(128, initial_value=int.from_bytes(iv, byteorder="big"))
     cipher = AES.new(derived_key[:16], AES.MODE_CTR, counter=ctr)
-    ciphertext = cipher.encrypt(private_key)
+    ciphertext = cipher.encrypt(seed)
     mac = blake256(derived_key[16:32] + ciphertext)
 
     return {
@@ -46,7 +42,7 @@ def encode(private_key: bytes, key_type: KeyType, passphrase: str, meta: str):
         },
         "id": str(uuid.uuid4()),
         "version": 3,
-        "address": address,
+        "seedHash": binascii.hexlify(seed_hash).decode("ascii"),
         "meta": meta,
     }
 
@@ -72,6 +68,10 @@ def decode(json, passphrase: str) -> str:
     iv = int(json["crypto"]["cipherparams"]["iv"], 16)
     ctr = Counter.new(128, initial_value=iv)
     decipher = AES.new(derivedKey[0:16], AES.MODE_CTR, counter=ctr)
-    private_key = decipher.decrypt(ciphertext)
+    seed = decipher.decrypt(ciphertext)
 
-    return binascii.hexlify(private_key).decode("ascii")
+    seed_hash = binascii.hexlify(blake256(seed)).decode("ascii")
+    if seed_hash != json["seedHash"]:
+        raise KeystoreError(ErrorCode.DECRYPTIONFAILED)
+
+    return binascii.hexlify(seed).decode("ascii")
