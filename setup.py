@@ -40,6 +40,5 @@ setup(
     packages=find_packages(),
     license=about["__license__"],
     install_requires=requires,
-    extras_require={"dev": ["pytest"]},
     python_requires=">=3.6",
 )
