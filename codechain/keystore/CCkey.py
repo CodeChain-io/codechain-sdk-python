@@ -1,7 +1,7 @@
 from jsondb.db import Database
 
 from .KeystoreManager import keystoreManager
-from .KeyType import KeyType
+from .keyType import KeyType
 
 
 class CCkey:

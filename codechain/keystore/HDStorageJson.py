@@ -6,9 +6,9 @@ from Crypto.Cipher import AES
 from Crypto.Util import Counter
 
 from ..crypto import blake256
-from .Errors import ErrorCode
-from .Errors import KeystoreError
-from .Pbkdf2 import pbkdf2
+from .errors import ErrorCode
+from .errors import KeystoreError
+from .pbkdf2 import pbkdf2
 
 
 def encode(seed: str, passphrase: str, meta: str):

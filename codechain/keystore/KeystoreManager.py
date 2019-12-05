@@ -5,13 +5,13 @@ from ..crypto import generate_private_key
 from ..crypto import get_account_id_from_public
 from ..crypto import get_public_from_private
 from ..crypto import sign_ecdsa
-from .Errors import ErrorCode
-from .Errors import KeystoreError
+from .errors import ErrorCode
+from .errors import KeystoreError
 from .keys import key_from_public_key
-from .KeyType import get_table_name
-from .KeyType import KeyType
-from .StorageJson import decode
-from .StorageJson import encode
+from .keyType import get_table_name
+from .keyType import KeyType
+from .storageJson import decode
+from .storageJson import encode
 
 
 class keystoreManager:
