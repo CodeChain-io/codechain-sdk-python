@@ -1,0 +1,16 @@
+language: python
+python:
+  - "3.6"
+before_install:
+  - pip3 install setuptools
+  - python3 setup.py install
+before_script:
+  - docker pull kodebox/codechain:ebacfe7b74296cc1e793cf3238748b7280f8072a
+  - docker run -d -p 8080:8080 kodebox/codechain:ebacfe7b74296cc1e793cf3238748b7280f8072a --jsonrpc-interface 0.0.0.0 -c solo --reseal-min-period 0
+  - docker ps -a
+script:
+  - pytest tests/test_rpc.py
+notifications:
+  webhooks: https://webhooks.gitter.im/e/8908c378a5e2669893ab
+services:
+  - docker
