@@ -2,7 +2,9 @@
 init:
 	pipenv install --dev
 test:
-	pytest
+	tox
+test-e2e:
+	tox -e e2e
 publish:
 	python3 setup.py sdist bdist_wheel
 	twine upload dist/*
