@@ -38,10 +38,12 @@ class P2PKH:
     def create_unlock_script(
         self,
         public_key_hash: str,
-        signature_tag: SignatureTag,
         txhash: H256,
         passphrase=None,
+        signature_tag: SignatureTag = None,
     ):
+        if signature_tag is None:
+            signature_tag = SignatureTag(inp="all", outp="all")
         public_key = self.raw_keystore.get_public_key(passphrase, key=public_key_hash)
         if public_key is None:
             raise ValueError(
