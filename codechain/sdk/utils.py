@@ -2,6 +2,9 @@ from dataclasses import dataclass
 from typing import List
 from typing import Union
 
+from codechain.crypto import blake256 as _blake256
+from codechain.crypto import sign_ecdsa as _sign_ecdsa
+
 
 @dataclass
 class SignatureTag:
@@ -74,3 +77,11 @@ def encode_signature_tag_output(output: List[int]):
         sig_bytes.append(byte)
 
     return sig_bytes.reverse()
+
+
+def blake256(data: Union[str, bytes]):
+    return _blake256(data)
+
+
+def sign_ecdsa(message: bytes, priv: bytes):
+    return _sign_ecdsa(message, priv)
