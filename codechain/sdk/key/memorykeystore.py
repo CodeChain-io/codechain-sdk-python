@@ -1,0 +1,2 @@
+class MemoryKeyStore:
+    pass
