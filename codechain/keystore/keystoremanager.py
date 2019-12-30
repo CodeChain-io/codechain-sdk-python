@@ -1,3 +1,5 @@
+from typing import Union
+
 from jsondb.db import Database
 
 from ..crypto import blake160
@@ -73,7 +75,7 @@ class keystoreManager:
 
         return True
 
-    def sign(self, key: str, message: str, passphrase: str):
+    def sign(self, key: str, message: Union[bytearray, bytes], passphrase: str):
         storage = self.get_storage(key)
 
         if storage is None:
@@ -81,7 +83,7 @@ class keystoreManager:
 
         private_key = decode(storage, passphrase)
 
-        return sign_ecdsa(message, private_key)
+        return sign_ecdsa(message, bytes.fromhex(private_key))
 
     def get_meta(self, key: str):
         storage = self.get_storage(key)

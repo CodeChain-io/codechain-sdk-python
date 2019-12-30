@@ -1,3 +1,5 @@
+from typing import Union
+
 from codechain.keystore import CCkey
 
 
@@ -39,7 +41,7 @@ class Platform:
     def get_public_key(self, key: str, passphrase=""):
         return self.cckey.platform.get_public_key(key, passphrase)
 
-    def sign(self, key: str, message: str, passphrase=""):
+    def sign(self, key: str, message: Union[bytearray, bytes], passphrase=""):
         return self.cckey.platform.sign(key, message, passphrase)
 
 
@@ -62,5 +64,5 @@ class Asset:
     def get_public_key(self, key: str, passphrase=""):
         return self.cckey.asset.get_public_key(key, passphrase)
 
-    def sign(self, key: str, message: str, passphrase=""):
+    def sign(self, key: str, message: Union[bytearray, bytes], passphrase=""):
         return self.cckey.asset.sign(key, message, passphrase)

@@ -93,7 +93,7 @@ class Key:
         account_id = PlatformAddress(account).account_id
 
         return keystore.platform.sign(
-            account_id.to_string(), transaction.tracker().to_string(), passphrase
+            account_id.to_string(), transaction.tracker(), passphrase
         )
 
     def sign_transaction(
