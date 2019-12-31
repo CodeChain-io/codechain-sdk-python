@@ -1,13 +1,23 @@
 from dataclasses import dataclass
+from typing import List
 from typing import Union
 
 from .assetoutpoint import AssetOutPoint
+from .assetoutpoint import AssetOutPointJSON
 
 
 @dataclass
 class Timelock:
     lock_type: str
     value: int
+
+
+@dataclass
+class AssetTransferInputJSON:
+    prev_out: AssetOutPointJSON
+    timelock: Union[None, Timelock]
+    lock_script: List[int]
+    unlock_script: List[int]
 
 
 class AssetTransferInput:
@@ -24,12 +34,12 @@ class AssetTransferInput:
         self.unlock_script = unlock_script
 
     @staticmethod
-    def from_json(data):
+    def from_json(data: AssetTransferInputJSON):
         return AssetTransferInput(
-            AssetOutPoint.from_json(data["prevOut"]),
-            data["timelock"],
-            bytes(data["lockScript"]),
-            bytes(data["unlockScript"]),
+            AssetOutPoint.from_json(data.prev_out),
+            data.timelock,
+            bytes(data.lock_script),
+            bytes(data.unlock_script),
         )
 
     def to_encode_object(self):
