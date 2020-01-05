@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import Union
 
 from ..core.signedtransaction import SignedTransaction
@@ -12,8 +13,14 @@ from codechain.primitives import PlatformAddress
 from codechain.primitives import U64
 
 
+@dataclass
+class KeyStoreType:
+    keystore_type: str
+    url_or_path: str
+
+
 class Key:
-    def __init__(self, network_id: str, key_store_type):
+    def __init__(self, network_id: str, key_store_type: Union[str, KeyStoreType]):
         if not is_keystore_type(key_store_type):
             raise ValueError(f"Unexpected keyStoreType param: {key_store_type}")
         self.network_id = network_id
@@ -145,8 +152,8 @@ class Key:
         if self.keystore is None:
             if self.keystore_type == "local":
                 self.keystore = LocalKeyStore.create()
-            elif self.keystore_type.get("type") == "local":
-                self.keystore = LocalKeyStore.create(self.keystore_type.get("path"))
+            elif self.keystore_type.type == "local":
+                self.keystore = LocalKeyStore.create(self.keystore_type.url_or_path)
             else:
                 raise ValueError("Not implemented")
         return self.keystore
@@ -169,9 +176,9 @@ def is_keystore_type(value):
         else:
             return False
     else:
-        if value.get("type") == "local" and isinstance(value.get("path"), str):
+        if value.type == "local" and isinstance(value.url_or_path, str):
             return True
-        elif value.get("type") == "remote":
+        elif value.type == "remote":
             raise ValueError("Not implemented")
         else:
             return False
