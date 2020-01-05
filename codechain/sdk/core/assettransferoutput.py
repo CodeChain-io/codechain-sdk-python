@@ -40,10 +40,10 @@ class AssetTransferOutput:
                 self.parameters = []
             elif address_type == 0x01:
                 self.lock_script_hash = P2PKH.get_lock_script_hash()
-                self.parameters = list(payload)
+                self.parameters = [bytes(payload)]
             elif address_type == 0x02:
                 self.lock_script_hash = P2PKHBurn.get_lock_script_hash()
-                self.parameters = list(payload)
+                self.parameters = [bytes(payload)]
             else:
                 raise ValueError(
                     f"Unexpected type of AssetAddress: {address_type}, {recipient}"
