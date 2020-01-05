@@ -2,8 +2,10 @@ from dataclasses import dataclass
 from typing import List
 from typing import Union
 
+from codechain.crypto import blake128 as _blake128
 from codechain.crypto import blake160 as _blake160
 from codechain.crypto import blake256 as _blake256
+from codechain.crypto import blake256_with_key as _blake256_with_key
 from codechain.crypto import recover_ecdsa as _recover_ecdsa
 from codechain.crypto import sign_ecdsa as _sign_ecdsa
 
@@ -87,6 +89,14 @@ def blake160(data: Union[str, bytes]):
 
 def blake256(data: Union[str, bytes]):
     return _blake256(data)
+
+
+def blake256_with_key(data: Union[str, bytes], key: Union[str, bytes]):
+    return _blake256_with_key(data, key)
+
+
+def blake128(data: Union[str, bytes]):
+    return _blake128(data)
 
 
 def sign_ecdsa(message: Union[bytes, bytearray], priv: Union[bytes, bytearray]):
