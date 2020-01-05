@@ -15,13 +15,13 @@ class P2PKH:
     def get_lock_script():
         return bytes(
             [
-                Script.Opcode.get("COPY"),
+                Script.Opcode["COPY"],
                 0x01,
-                Script.Opcode.get("BLAKE160"),
-                Script.Opcode.get("EQ"),
-                Script.Opcode.get("JZ"),
+                Script.Opcode["BLAKE160"],
+                Script.Opcode["EQ"],
+                Script.Opcode["JZ"],
                 0xFF,
-                Script.Opcode.get("CHKSIG"),
+                Script.Opcode["CHKSIG"],
             ]
         )
 
@@ -54,7 +54,7 @@ class P2PKH:
             passphrase, key=public_key_hash, message=txhash
         )
         encoded_tag = encode_signature_tag(signature_tag)
-        PUSHB = Script.Opcode.get("PUSHB")
+        PUSHB = Script.Opcode["PUSHB"]
 
         return (
             bytes([PUSHB, 65])
