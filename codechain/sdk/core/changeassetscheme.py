@@ -23,6 +23,11 @@ class AssetSchemeChangeTransactionJSON:
     allowed_script_hashes: List[str]
 
 
+@dataclass
+class ChangeAssetSchemeActionJSON(AssetSchemeChangeTransactionJSON):
+    approvals: List[str]
+
+
 class ChangeAssetScheme(Transaction):
     def __init__(
         self,

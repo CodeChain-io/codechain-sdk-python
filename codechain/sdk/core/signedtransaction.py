@@ -1,15 +1,27 @@
 import binascii
+from dataclasses import dataclass
+from typing import Union
 
 from rlp import encode
 
 from ..utils import recover_ecdsa
 from .transaction import Transaction
+from .transaction import TransactionJSON
 from codechain.crypto import blake160
 from codechain.crypto import blake256
 from codechain.primitives import H160
 from codechain.primitives import H256
 from codechain.primitives import H512
 from codechain.primitives import PlatformAddress
+
+
+@dataclass
+class SignedTransactionJSON(TransactionJSON):
+    block_number: Union[int, None]
+    block_hash: Union[str, None]
+    transaction_index: Union[int, None]
+    sig: str
+    transaction_hash: str
 
 
 class SignedTransaction:
