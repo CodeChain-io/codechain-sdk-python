@@ -99,7 +99,7 @@ def from_json_to_transaction(result: SignedTransactionJSON):
     return tx
 
 
-def fron_json_to_signed_transaction(data: SignedTransactionJSON):
+def from_json_to_signed_transaction(data: SignedTransactionJSON):
 
     if not isinstance(data.sig, str):
         raise ValueError("Unexpected type of sig")
