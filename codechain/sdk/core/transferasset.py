@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import List
+from typing import Union
 
 from rlp import encode
 
@@ -23,6 +24,13 @@ from codechain.primitives import U64
 @dataclass
 class AssetTransferTransactionJSON:
     pass
+
+
+@dataclass
+class TransferAssetActionJSON(AssetTransferTransactionJSON):
+    metadata: str
+    approvals: List[str]
+    expiration: Union[int, None]
 
 
 class TransferAsset:

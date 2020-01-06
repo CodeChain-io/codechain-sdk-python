@@ -1,14 +1,26 @@
 from abc import ABC
 from abc import abstractmethod
+from dataclasses import dataclass
 from typing import Union
 
 from rlp import encode
 
 from ..utils import blake256
 from ..utils import sign_ecdsa
+from .changeassetscheme import ChangeAssetSchemeActionJSON
 from .signedtransaction import SignedTransaction
+from .transferasset import TransferAssetActionJSON
 from codechain.primitives import H256
 from codechain.primitives import U64
+
+
+@dataclass
+class TransactionJSON:
+    action: Union[TransferAssetActionJSON, ChangeAssetSchemeActionJSON]
+    action_type: str
+    network_id: str
+    seq: Union[int, None]
+    fee: Union[str, None]
 
 
 class AssetTransaction(ABC):
