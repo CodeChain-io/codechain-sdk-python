@@ -38,8 +38,8 @@ class AssetTransaction(ABC):
 
 class Transaction(ABC):
     def __init__(self, network_id: str):
-        self.seq = None
-        self.fee = None
+        self.seq: int = None
+        self.fee: U64 = None
         self.network_id = network_id
         super().__init__()
 
@@ -76,7 +76,7 @@ class Transaction(ABC):
             "networkId": self.network_id,
             "action": action.update({"type": self.transaction_type()}),
             "seq": self.seq,
-            "fee": self.fee,
+            "fee": None if self.fee is None else self.fee.to_json(),
         }
         return result
 
