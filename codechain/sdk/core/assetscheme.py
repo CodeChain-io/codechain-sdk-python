@@ -49,8 +49,12 @@ class AssetScheme:
         return AssetScheme(
             data["metadata"],
             U64(data["supply"]),
-            None if data["approver"] is None else PlatformAddress(data["approver"]),
-            None if data["registrar"] is None else PlatformAddress(data["registrar"]),
+            None
+            if data["approver"] is None
+            else PlatformAddress.ensure(data["approver"]),
+            None
+            if data["registrar"] is None
+            else PlatformAddress.ensure(data["registrar"]),
             []
             if data["allowedScriptHashes"] is None
             else map(lambda x: H160(x), data["allowedScriptHashes"]),
@@ -94,7 +98,7 @@ class AssetScheme:
             self.network_id,
             self.shard_id,
             self.metadata,
-            AssetMintOutput(self.supply, AssetAddress(recipient)),
+            AssetMintOutput(self.supply, AssetAddress.ensure(recipient)),
             self.approver,
             self.registrar,
             self.allowd_script_hashes,

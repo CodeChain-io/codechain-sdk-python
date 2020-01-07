@@ -97,7 +97,7 @@ class Key:
                 f"Expected account param to be a PlatformAddress value but found {account}"
             )
 
-        account_id = PlatformAddress(account).account_id
+        account_id = PlatformAddress.ensure(account).account_id
 
         return keystore.platform.sign(
             account_id.to_string(), transaction.tracker(), passphrase
@@ -132,7 +132,7 @@ class Key:
             raise ValueError(f"Expected seq param to be a number value but found {seq}")
         tx.fee = fee
         tx.seq = seq
-        account_id = PlatformAddress(account).account_id
+        account_id = PlatformAddress.ensure(account).account_id
         sig = keystore.platform.sign(
             account_id.to_string(), tx.unsigned_hash(), passphrase
         )

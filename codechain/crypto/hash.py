@@ -1,7 +1,8 @@
 import hashlib
+from typing import Union
 
 
-def blake256(data):
+def blake256(data: Union[bytearray, bytes, str]):
     if isinstance(data, str):
         data = bytes.fromhex(data)
 
@@ -10,7 +11,9 @@ def blake256(data):
     return h.digest()
 
 
-def blake256_with_key(data, key):
+def blake256_with_key(
+    data: Union[bytearray, bytes, str], key: Union[bytearray, bytes, str]
+):
     if isinstance(data, str):
         data = bytes.fromhex(data)
 
@@ -22,7 +25,7 @@ def blake256_with_key(data, key):
     return h.digest()
 
 
-def blake160(data):
+def blake160(data: Union[bytearray, bytes, str]):
     if isinstance(data, str):
         data = bytes.fromhex(data)
 
@@ -31,7 +34,9 @@ def blake160(data):
     return h.digest()
 
 
-def blake160_with_key(data, key):
+def blake160_with_key(
+    data: Union[bytearray, bytes, str], key: Union[bytearray, bytes, str]
+):
     if isinstance(data, str):
         data = bytes.fromhex(data)
 
@@ -43,7 +48,7 @@ def blake160_with_key(data, key):
     return h.digest()
 
 
-def blake128(data):
+def blake128(data: Union[bytearray, bytes, str]):
     if isinstance(data, str):
         data = bytes.fromhex(data)
 
@@ -52,7 +57,9 @@ def blake128(data):
     return h.digest()
 
 
-def blake128_with_key(data, key):
+def blake128_with_key(
+    data: Union[bytearray, bytes, str], key: Union[bytearray, bytes, str]
+):
     if isinstance(data, str):
         data = bytes.fromhex(data)
 
@@ -64,7 +71,7 @@ def blake128_with_key(data, key):
     return h.digest()
 
 
-def ripemd160(data):
+def ripemd160(data: Union[bytearray, bytes, str]):
     if isinstance(data, str):
         data = bytes.fromhex(data)
 
