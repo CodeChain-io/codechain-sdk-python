@@ -90,8 +90,10 @@ class AssetSchemeChangeTransaction:
         self.asset_type = asset_type
         self.seq = seq
         self.metatdata = metadata if isinstance(metadata, str) else str(metadata)
-        self.approver = None if approver is None else PlatformAddress(approver)
-        self.registrar = None if registrar is None else PlatformAddress(registrar)
+        self.approver = None if approver is None else PlatformAddress.ensure(approver)
+        self.registrar = (
+            None if registrar is None else PlatformAddress.ensure(registrar)
+        )
         self.allowed_script_hashes = allowed_script_hashes
 
     def to_json(self):

@@ -1,13 +1,54 @@
+import binascii
 from dataclasses import dataclass
 from typing import List
 from typing import Union
 
 from codechain.crypto import blake128 as _blake128
+from codechain.crypto import blake128_with_key as _blake128_with_key
 from codechain.crypto import blake160 as _blake160
+from codechain.crypto import blake160_with_key as _blake160_with_key
 from codechain.crypto import blake256 as _blake256
 from codechain.crypto import blake256_with_key as _blake256_with_key
+from codechain.crypto import generate_private_key as _generate_private_key
+from codechain.crypto import get_account_id_from_private as _get_account_id_from_private
+from codechain.crypto import get_account_id_from_public as _get_account_id_from_public
+from codechain.crypto import get_public_from_private as _get_public_from_private
 from codechain.crypto import recover_ecdsa as _recover_ecdsa
+from codechain.crypto import ripemd160 as _ripemd160
 from codechain.crypto import sign_ecdsa as _sign_ecdsa
+from codechain.crypto import verify_ecdsa as _verify_ecdsa
+
+
+def to_hex(buffer: Union[bytes, bytearray]):
+    return binascii.hexlify(buffer).decode("ascii")
+
+
+def blake256(data: Union[str, bytes]):
+    return _blake256(data)
+
+
+def blake160(data: Union[str, bytes]):
+    return _blake160(data)
+
+
+def blake128(data: Union[str, bytes]):
+    return _blake128(data)
+
+
+def blake256_with_key(data: Union[str, bytes], key: Union[str, bytes]):
+    return _blake256_with_key(data, key)
+
+
+def blake160_with_key(data: Union[str, bytes], key: Union[str, bytes]):
+    return _blake160_with_key(data, key)
+
+
+def blake128_with_key(data: Union[str, bytes], key: Union[str, bytes]):
+    return _blake128_with_key(data, key)
+
+
+def ripemd160(data: Union[str, bytes]):
+    return _ripemd160(data)
 
 
 @dataclass
@@ -83,25 +124,33 @@ def encode_signature_tag_output(output: List[int]):
     return sig_bytes.reverse()
 
 
-def blake160(data: Union[str, bytes]):
-    return _blake160(data)
-
-
-def blake256(data: Union[str, bytes]):
-    return _blake256(data)
-
-
-def blake256_with_key(data: Union[str, bytes], key: Union[str, bytes]):
-    return _blake256_with_key(data, key)
-
-
-def blake128(data: Union[str, bytes]):
-    return _blake128(data)
-
-
 def sign_ecdsa(message: Union[bytes, bytearray], priv: Union[bytes, bytearray]):
     return _sign_ecdsa(message, priv)
 
 
+def verify_ecdsa(
+    message: Union[bytes, bytearray],
+    signature: Union[bytes, bytearray],
+    pub: Union[bytes, bytearray],
+):
+    return _verify_ecdsa(message, signature, pub)
+
+
 def recover_ecdsa(message: Union[bytes, bytearray], signature: [bytes, bytearray]):
     return _recover_ecdsa(message, signature)
+
+
+def generate_private_key():
+    return _generate_private_key()
+
+
+def get_account_id_from_private(priv: Union[bytes, bytearray, str]):
+    return _get_account_id_from_private(priv)
+
+
+def get_account_id_from_public(pub: Union[bytes, bytearray, str]):
+    return _get_account_id_from_public(pub)
+
+
+def get_public_from_private(priv: Union[bytes, bytearray, str]):
+    return _get_public_from_private(priv)
