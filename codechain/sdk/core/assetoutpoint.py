@@ -54,9 +54,9 @@ class AssetOutPoint:
 
     def to_encode_object(self):
         return [
-            self.tracker.to_encoded_object(),
+            self.tracker.to_encode_object(),
             self.index,
-            self.asset_type.to_encoded_object(),
+            self.asset_type.to_encode_object(),
             self.shard_id,
             self.quantity.to_encode_object(),
         ]

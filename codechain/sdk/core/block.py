@@ -87,10 +87,10 @@ class Block:
 
     def get_size(self):
         block_header = []
-        block_header.append(self.parent_hash.to_encoded_object())
-        block_header.append(self.author.account_id.to_encoded_object())
-        block_header.append(self.state_root.to_encoded_object())
-        block_header.append(self.transactions_root.to_encoded_object())
+        block_header.append(self.parent_hash.to_encode_object())
+        block_header.append(self.author.account_id.to_encode_object())
+        block_header.append(self.state_root.to_encode_object())
+        block_header.append(self.transactions_root.to_encode_object())
         block_header.append(self.score.to_encode_object())
         block_header.append(self.number)
         block_header.append(self.timestamp)

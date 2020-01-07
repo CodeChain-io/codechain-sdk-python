@@ -162,9 +162,9 @@ class Order:
 
     def to_encode_object(self):
         return [
-            self.asset_type_from.to_encoded_object(),
-            self.asset_type_to.to_encoded_object(),
-            self.asset_type_fee.to_encoded_object(),
+            self.asset_type_from.to_encode_object(),
+            self.asset_type_to.to_encode_object(),
+            self.asset_type_fee.to_encode_object(),
             self.shard_id_from,
             self.shard_id_to,
             self.shard_id_fee,
@@ -173,9 +173,9 @@ class Order:
             self.asset_quantity_fee.to_encode_object(),
             map(lambda x: x.to_encode_object(), self.origin_outputs),
             self.expiration.to_encode_object(),
-            self.lock_script_hash_from.to_encoded_object(),
+            self.lock_script_hash_from.to_encode_object(),
             map(lambda x: bytes(x), self.parameters_from),
-            self.lock_script_hash_fee.to_encoded_object(),
+            self.lock_script_hash_fee.to_encode_object(),
             map(lambda x: bytes(x), self.parameters_fee),
         ]
 
