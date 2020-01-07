@@ -64,7 +64,7 @@ class ChangeAssetScheme(Transaction):
         return "changeAssetScheme"
 
     def action_to_encode_object(self):
-        encoded = self._transaction.to_encoded_object()
+        encoded = self._transaction.to_encode_object()
         encoded.append(self.approvals)
         return encode
 
@@ -100,7 +100,7 @@ class AssetSchemeChangeTransaction:
         return {
             "networkId": self.network_id,
             "shardId": self.shard_id,
-            "assetType": self.asset_type.to_encoded_object(),
+            "assetType": self.asset_type.to_encode_object(),
             "seq": self.seq,
             "metadata": self.metatdata,
             "approver": None if self.approver is None else str(self.approver),
@@ -110,22 +110,22 @@ class AssetSchemeChangeTransaction:
             ),
         }
 
-    def to_encoded_object(self):
+    def to_encode_object(self):
         return [
             0x15,
             self.network_id,
             self.shard_id,
-            self.asset_type.to_encoded_object(),
+            self.asset_type.to_encode_object(),
             self.seq,
             self.metatdata,
             None
             if self.approver is None
-            else [self.approver.account_id.to_encoded_object()],
+            else [self.approver.account_id.to_encode_object()],
             None
             if self.registrar is None
-            else [self.registrar.account_id.to_encoded_object()],
-            map(lambda x: x.to_encoded_object(), self.allowed_script_hashes),
+            else [self.registrar.account_id.to_encode_object()],
+            map(lambda x: x.to_encode_object(), self.allowed_script_hashes),
         ]
 
     def rlp_bytes(self):
-        return encode(self.to_encoded_object())
+        return encode(self.to_encode_object())

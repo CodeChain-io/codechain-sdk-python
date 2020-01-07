@@ -155,10 +155,10 @@ class AssetMintTransaction:
             self.output.supply.to_encode_object(),
             []
             if self.approver is None
-            else [self.approver.account_id.to_encoded_object()],
+            else [self.approver.account_id.to_encode_object()],
             []
             if self.registrar is None
-            else [self.registrar.account_id.to_encoded_object()],
+            else [self.registrar.account_id.to_encode_object()],
             map(lambda x: x.to_encode_object(), self.allowed_script_hashes),
         ]
 

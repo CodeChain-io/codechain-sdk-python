@@ -53,11 +53,11 @@ class _HexString(bytes):
         else:
             return isinstance(param, cls)
 
-    def to_encoded_object(self):
+    def to_encode_object(self):
         return self
 
     def rlp_bytes(self):
-        return encode(self.to_encoded_object())
+        return encode(self.to_encode_object())
 
     def __str__(self):
         return binascii.hexlify(self).decode("ascii")
