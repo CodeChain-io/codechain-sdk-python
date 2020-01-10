@@ -1,3 +1,4 @@
+
 from abc import ABC
 from abc import abstractmethod
 from dataclasses import dataclass
@@ -7,20 +8,9 @@ from rlp import encode
 
 from ..utils import blake256
 from ..utils import sign_ecdsa
-from .changeassetscheme import ChangeAssetSchemeActionJSON
-from .signedtransaction import SignedTransaction
-from .transferasset import TransferAssetActionJSON
+
 from codechain.primitives import H256
 from codechain.primitives import U64
-
-
-@dataclass
-class TransactionJSON:
-    action: Union[TransferAssetActionJSON, ChangeAssetSchemeActionJSON]
-    action_type: str
-    network_id: str
-    seq: Union[int, None]
-    fee: Union[str, None]
 
 
 class AssetTransaction(ABC):
@@ -68,6 +58,7 @@ class Transaction(ABC):
             raise ValueError("The tx fee is already set")
         self.fee = U64(fee)
 
+        from .signedtransaction import SignedTransaction
         return SignedTransaction(self, sign_ecdsa(self.unsigned_hash, H256(secret)))
 
     def to_json(self):
@@ -91,3 +82,14 @@ class Transaction(ABC):
     @abstractmethod
     def action_to_encode_object(self):
         pass
+
+from .changeassetscheme import ChangeAssetSchemeActionJSON
+from .transferasset import TransferAssetActionJSON
+
+@dataclass
+class TransactionJSON:
+    action: Union[TransferAssetActionJSON, ChangeAssetSchemeActionJSON]
+    action_type: str
+    network_id: str
+    seq: Union[int, None]
+    fee: Union[str, None]

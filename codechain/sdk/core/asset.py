@@ -6,8 +6,6 @@ from typing import Union
 from .assetoutpoint import AssetOutPoint
 from .assettransferinput import AssetTransferInput
 from .assettransferinput import Timelock
-from .assettransferoutput import AssetTransferOutput
-from .transferasset import TransferAsset
 from codechain.primitives import AssetAddress
 from codechain.primitives import H160
 from codechain.primitives import H256
@@ -100,6 +98,9 @@ class Asset:
             recipient = []
         if approvals is None:
             approvals = []
+
+        from .assettransferoutput import AssetTransferOutput
+        from .transferasset import TransferAsset
         return TransferAsset(
             [],
             [AssetTransferInput(self.out_point, timelock, bytes(), bytes())],

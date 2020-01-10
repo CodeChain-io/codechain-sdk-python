@@ -5,7 +5,6 @@ from typing import Union
 from .asset import Asset
 from .assetmintoutput import AssetMintOutput
 from .assetoutpoint import AssetOutPoint
-from .assetscheme import AssetScheme
 from .assettransferinput import AssetTransferInput
 from .assettransferinput import Timelock
 from .assettransferoutput import AssetTransferOutput
@@ -70,6 +69,7 @@ class Classes:
 
 
 class Core:
+    from .assetscheme import AssetScheme
     classes = Classes(
         H128,
         H160,

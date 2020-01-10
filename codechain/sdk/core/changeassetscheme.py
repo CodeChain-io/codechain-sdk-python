@@ -5,7 +5,6 @@ from typing import Union
 from rlp import encode
 
 from ..utils import blake256
-from .transaction import Transaction
 from codechain.primitives import H160
 from codechain.primitives import H256
 from codechain.primitives import PlatformAddress
@@ -27,7 +26,7 @@ class AssetSchemeChangeTransactionJSON:
 class ChangeAssetSchemeActionJSON(AssetSchemeChangeTransactionJSON):
     approvals: List[str]
 
-
+from .transaction import Transaction
 class ChangeAssetScheme(Transaction):
     def __init__(
         self,
