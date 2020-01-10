@@ -141,8 +141,8 @@ class Core:
 
     def create_mint_asset_transaction(
         self,
-        scheme: AssetScheme,
         recipient: AssetAddress,
+        scheme: AssetScheme = None,
         approvals: List[str] = None,
         network_id: str = None,
         shard_id: int = None,
