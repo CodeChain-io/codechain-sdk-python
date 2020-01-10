@@ -16,11 +16,11 @@ from codechain.primitives import U64
 @dataclass
 class KeyStoreType:
     keystore_type: str
-    url_or_path: str
+    url_or_path: Union[str, None]
 
 
 class Key:
-    def __init__(self, network_id: str, key_store_type: Union[str, KeyStoreType]):
+    def __init__(self, network_id: str, key_store_type: KeyStoreType):
         if not is_keystore_type(key_store_type):
             raise ValueError(f"Unexpected keyStoreType param: {key_store_type}")
         self.network_id = network_id
@@ -167,8 +167,11 @@ def is_keystore(value):
     return isinstance(value, LocalKeyStore)
 
 
-def is_keystore_type(value):
-    if isinstance(value, str):
+def is_keystore_type(value: KeyStoreType):
+    if not isinstance(value, KeyStoreType):
+        return False
+
+    if value.url_or_path is None:
         if value == "local":
             return True
         elif value == "memory":
