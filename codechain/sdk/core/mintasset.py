@@ -7,7 +7,6 @@ from rlp import encode
 from .asset import Asset
 from .assetmintoutput import AssetMintOutput
 from .assetmintoutput import AssetMintOutputJSON
-from .assetscheme import AssetScheme
 from .transaction import AssetTransaction
 from .transaction import Transaction
 from codechain.crypto import blake160
@@ -88,6 +87,7 @@ class MintAsset(Transaction, AssetTransaction):
         if self._transaction.output.supply is None:
             raise ValueError("Not implemented")
 
+        from .assetscheme import AssetScheme
         return AssetScheme(
             self._transaction.metadata,
             self._transaction.output.supply,

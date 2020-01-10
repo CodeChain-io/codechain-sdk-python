@@ -43,6 +43,6 @@ class TransferAsset:
         network_id: str,
         metadata,
         approvals: List[str],
-        expiration: List[int, None],
+        expiration: Union[int, None],
     ):
         pass

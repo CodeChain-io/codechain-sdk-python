@@ -5,7 +5,6 @@ from typing import Union
 from rlp import encode
 
 from ..utils import recover_ecdsa
-from .transaction import Transaction
 from .transaction import TransactionJSON
 from codechain.crypto import blake160
 from codechain.crypto import blake256
@@ -25,6 +24,8 @@ class SignedTransactionJSON(TransactionJSON):
 
 
 class SignedTransaction:
+    from .transaction import Transaction
+
     def __init__(
         self,
         unsigned: Transaction,
