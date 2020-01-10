@@ -1,5 +1,7 @@
 import sys
 
+from .sdk import SDK
+
 # -------
 # Pythons
 # -------

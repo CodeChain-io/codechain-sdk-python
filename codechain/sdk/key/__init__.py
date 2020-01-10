@@ -1,6 +1,7 @@
 import sys
 
 from .key import Key
+from .key import KeyStoreType
 
 # -------
 # Pythons
