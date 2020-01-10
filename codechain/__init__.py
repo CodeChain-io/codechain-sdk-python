@@ -4,6 +4,7 @@ from .crypto import *
 from .keystore import *
 from .primitives import *
 from .rpc import *
+from .sdk import *
 
 # -------
 # Pythons
