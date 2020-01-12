@@ -32,3 +32,19 @@ class AccountRpc:
             str(PlatformAddress.ensure(address)),
             passphrase,
         )
+
+    def import_raw(self, secret: H256, passphrase: str = None):
+        if not H256.check(secret):
+            raise ValueError(
+                f"Expected the first argument to be an H256 value but found {secret}"
+            )
+        if passphrase is not None and not isinstance(passphrase, str):
+            raise ValueError(
+                f"Expected the second argument to be a string but found {passphrase}"
+            )
+
+        result = self.rpc.send_rpc_request(
+            "account", "import_raw", H256(secret).to_string(prefix=True)
+        )
+
+        return str(PlatformAddress.ensure(result))
