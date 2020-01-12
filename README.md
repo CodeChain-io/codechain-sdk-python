@@ -9,7 +9,7 @@ Not prepared
 ## Getting Started (For SDK developers)
 
 ### Submitting patches
-- Use `Black`_ to autoformat your code. This should be done for you as a git `pre-commit`_ hook.
+- Use `Black` to autoformat your code. This should be done for you as a git `pre-commit` hook.
 
 ### First time setup
 - Clone your GitHub fork locally:
@@ -42,56 +42,35 @@ $ pipenv lock
 $ make test
 ```
 
-## Submodules
+## Usage
 
-### codechain-crypto
+```python
+#!/usr/bin/python3
+from codechain import SDK
 
-Python implementation of crypto functions and classes used in CodeChain.
+sdk = SDK("http://localhost:8080", "tc")
 
-#### Functions
+ACCOUNT_SECRET = "ede1d4ccb4ec9a8bbbae9a13db3f4a7b56ea04189be86ac3a6a439d9a0a1addd"
+ACCOUNT_ADDRESS = "tccq9h7vnl68frvqapzv3tujrxtxtwqdnxw6yamrrgd"
+ACCOUNT_PASSPHRASE = "satoshi"
 
-* sign_schnorr
-* verify_schnorr
-* recover_schnorr
+address = sdk.rpc.account.import_raw(ACCOUNT_SECRET, ACCOUNT_PASSPHRASE)
+address = "tcaqyqckq0zgdxgpck6tjdg4qmp52p2vx3qaexqnegylk"
 
-* sign_ecdsa
-* verify_ecdsa
-* recover_ecdsa
-* blake256, blake256_with_key, blake160, blake160_with_key, blake128, blake128_with_key
-* ripemd160
-* get_public_from_private
-* generate_private_key
+tx = sdk.core.create_mint_asset_transaction(
+    address,
+    None,
+    None,
+    None,
+    0,
+    {"name": "Silver Coin", "description": "...", "icon_url": "..."},
+    None,
+    None,
+    None,
+    100000000,
+)
 
-### codechain-rpc
+tx_hash = sdk.rpc.chain.send_transaction(tx, ACCOUNT_ADDRESS, ACCOUNT_PASSPHRASE)
 
-codechain-rpc is a Python module that calls RPC to a CodeChain node.
-
-#### RPC list
-
-You can find the RPC list in [this link](https://github.com/CodeChain-io/codechain/blob/master/spec/JSON-RPC.md).
-
-### codechain-primitives
-
-Python functions and classes for CodeChain's primitives.
-
-#### Functions
-
-* to_hex
-* get_account_id_from_private
-* get_account_id_from_public
-* to_locale_string
-
-#### Classes
-
-* H128, H160, H256, H512
-* U64, U128, U256
-* AssetAddres
-* PlatformAddress
-
-### codechain-keystore
-
-codechain-keystore is a private key management module. It saves CodeChain's asset transfer address safely in a disk. If you want to manage CodeChain keys using python, you should use this.
-
-#### How your private key is saved
-
-We use a JSON file to save an encrypted private key. You can find the file in `./keystore.db`.
+result = sdk.rpc.chain.contains_transaction(tx_hash)
+```
