@@ -114,3 +114,14 @@ class ChainRpc:
         return self.rpc.send_rpc_request(
             "mempool", "get_transaction_results_by_tracker", "0x" + str(H256(tracker))
         )
+
+    def contains_transaction(self, tx_hash: H256):
+        if not H256.check(tx_hash):
+            raise ValueError(
+                f"Expected the first argument of containsTransaction to be an H256 value but found {tx_hash}"
+            )
+
+        result = self.rpc.send_rpc_request(
+            "chain", "contains_transaction", "0x" + str(H256(tx_hash))
+        )
+        return result
