@@ -70,6 +70,7 @@ class Classes:
 
 class Core:
     from .assetscheme import AssetScheme
+
     classes = Classes(
         H128,
         H160,
@@ -122,18 +123,22 @@ class Core:
         check_approver(approver)
         check_registrar(registrar)
 
+        from .assetscheme import AssetScheme
+
         return AssetScheme(
             metadata,
             U64(supply),
             None if approver is None else PlatformAddress.ensure(approver),
             None if registrar is None else PlatformAddress.ensure(registrar),
             [] if allowed_script_hashes is None else allowed_script_hashes,
-            map(
-                lambda x: {
-                    "assetType": H160(x["assetType"]),
-                    "quantity": U64(x["quantity"]),
-                },
-                pool,
+            list(
+                map(
+                    lambda x: {
+                        "assetType": H160(x["assetType"]),
+                        "quantity": U64(x["quantity"]),
+                    },
+                    pool,
+                )
             ),
             self.network_id,
             shard_id,
@@ -152,6 +157,8 @@ class Core:
         allowed_script_hashes: List[H160] = None,
         supply: U64 = None,
     ):
+        if approvals is None:
+            approvals = []
         if scheme is None and (shard_id is None or metadata is None):
             raise ValueError(
                 f"Either scheme params or proper arguments should be provided {scheme}"

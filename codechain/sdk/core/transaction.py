@@ -1,4 +1,3 @@
-
 from abc import ABC
 from abc import abstractmethod
 from dataclasses import dataclass
@@ -8,7 +7,6 @@ from rlp import encode
 
 from ..utils import blake256
 from ..utils import sign_ecdsa
-
 from codechain.primitives import H256
 from codechain.primitives import U64
 
@@ -22,7 +20,7 @@ class AssetTransaction(ABC):
         pass
 
     @abstractmethod
-    def addApproval(self, approval: str):
+    def add_approval(self, approval: str):
         pass
 
 
@@ -36,9 +34,10 @@ class Transaction(ABC):
     def to_encode_object(self):
         if self.seq is None or self.fee is None:
             raise ValueError("Seq and fee in the tx must be present")
+
         return [
             self.seq,
-            self.fee.to_encode_object(),
+            U64(self.fee),
             self.network_id,
             self.action_to_encode_object(),
         ]
@@ -59,6 +58,7 @@ class Transaction(ABC):
         self.fee = U64(fee)
 
         from .signedtransaction import SignedTransaction
+
         return SignedTransaction(self, sign_ecdsa(self.unsigned_hash, H256(secret)))
 
     def to_json(self):
@@ -83,8 +83,10 @@ class Transaction(ABC):
     def action_to_encode_object(self):
         pass
 
+
 from .changeassetscheme import ChangeAssetSchemeActionJSON
 from .transferasset import TransferAssetActionJSON
+
 
 @dataclass
 class TransactionJSON:

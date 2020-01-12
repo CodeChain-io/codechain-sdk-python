@@ -152,12 +152,12 @@ class Order:
             U64(data["assetQuantityFrom"]),
             U64(data["assetQuantityTo"]),
             U64(data["assetQuantityFee"]),
-            map(lambda x: AssetOutPoint.from_json(x), data["originOutputs"]),
+            list(map(lambda x: AssetOutPoint.from_json(x), data["originOutputs"])),
             U64(data["expiration"]),
             H160(data["lockScriptHashFrom"]),
-            map(lambda x: bytes.fromhex(x), data["parametersFrom"]),
+            list(map(lambda x: bytes.fromhex(x), data["parametersFrom"])),
             H160(data["lockSCriptHashFee"]),
-            map(lambda x: bytes.fromhex(x), data["parametersFee"]),
+            list(map(lambda x: bytes.fromhex(x), data["parametersFee"])),
         )
 
     def to_encode_object(self):
@@ -171,12 +171,12 @@ class Order:
             self.asset_quantity_from.to_encode_object(),
             self.asset_quantity_to.to_encode_object(),
             self.asset_quantity_fee.to_encode_object(),
-            map(lambda x: x.to_encode_object(), self.origin_outputs),
+            list(map(lambda x: x.to_encode_object(), self.origin_outputs)),
             self.expiration.to_encode_object(),
             self.lock_script_hash_from.to_encode_object(),
-            map(lambda x: bytes(x), self.parameters_from),
+            list(map(lambda x: bytes(x), self.parameters_from)),
             self.lock_script_hash_fee.to_encode_object(),
-            map(lambda x: bytes(x), self.parameters_fee),
+            list(map(lambda x: bytes(x), self.parameters_fee)),
         ]
 
     def rlp_bytes(self):
@@ -193,15 +193,15 @@ class Order:
             "assetQuantityFrom": self.asset_quantity_from.to_json(),
             "assetQuantityTo": self.asset_quantity_to.to_json(),
             "assetQuantityFee": self.asset_quantity_fee.to_json(),
-            "originOutputs": map(lambda x: x.to_json(), self.origin_outputs),
+            "originOutputs": list(map(lambda x: x.to_json(), self.origin_outputs)),
             "expiration": str(self.expiration),
             "lockScriptHashFrom": self.lock_script_hash_from.to_json(),
-            "parametersFrom": map(
-                lambda x: binascii.hexlify(x).decode("ascii"), self.parameters_from
+            "parametersFrom": list(
+                map(lambda x: binascii.hexlify(x).decode("ascii"), self.parameters_from)
             ),
             "lockScriptHashFee": self.lock_script_hash_fee.to_json(),
-            "parametersFee": map(
-                lambda x: binascii.hexlify(x).decode("ascii"), self.parameters_fee
+            "parametersFee": list(
+                map(lambda x: binascii.hexlify(x).decode("ascii"), self.parameters_fee)
             ),
         }
 

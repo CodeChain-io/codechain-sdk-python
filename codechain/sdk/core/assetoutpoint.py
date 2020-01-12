@@ -49,7 +49,7 @@ class AssetOutPoint:
             None if data.lock_script_hash is None else H160(data.lock_script_hash),
             None
             if data.parameters is None
-            else map(lambda x: bytes.fromhex(x), data.parameters),
+            else list(map(lambda x: bytes.fromhex(x), data.parameters)),
         )
 
     def to_encode_object(self):
@@ -73,5 +73,7 @@ class AssetOutPoint:
             else self.lock_script_hash.to_json(),
             "parameters": None
             if self.parameters is None
-            else map(lambda x: binascii.hexlify(x).decode("ascii"), self.parameters),
+            else list(
+                map(lambda x: binascii.hexlify(x).decode("ascii"), self.parameters)
+            ),
         }

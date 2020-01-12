@@ -60,7 +60,7 @@ class AssetTransferOutput:
     def from_json(data: AssetTransferOutputJSON):
         return AssetTransferOutput(
             H160(data["lockScriptHash"]),
-            map(lambda x: bytes.fromhex(x), data["parameters"]),
+            list(map(lambda x: bytes.fromhex(x), data["parameters"])),
             H160(data["assetType"]),
             data["shardId"],
             U64(data["quantity"]),
@@ -69,7 +69,7 @@ class AssetTransferOutput:
     def to_encode_object(self):
         return [
             self.lock_script_hash.to_encode_object(),
-            map(lambda x: bytes(x), self.parameters),
+            list(map(lambda x: bytes(x), self.parameters)),
             self.asset_type.to_encode_object(),
             self.shard_id,
             self.quantity.to_encode_object(),
@@ -78,8 +78,8 @@ class AssetTransferOutput:
     def to_json(self):
         return {
             "lockScriptHash": self.lock_script_hash.to_json(),
-            "parameters": map(
-                lambda x: binascii.hexlify(x).decode("ascii"), self.parameters
+            "parameters": list(
+                map(lambda x: binascii.hexlify(x).decode("ascii"), self.parameters)
             ),
             "assetType": self.asset_type.to_json(),
             "shardId": self.shard_id,

@@ -88,6 +88,7 @@ class MintAsset(Transaction, AssetTransaction):
             raise ValueError("Not implemented")
 
         from .assetscheme import AssetScheme
+
         return AssetScheme(
             self._transaction.metadata,
             self._transaction.output.supply,
@@ -141,7 +142,9 @@ class AssetMintTransaction:
             "output": self.output.to_json(),
             "approver": None if self.approver is None else str(self.approver),
             "registrar": None if self.registrar is None else str(self.registrar),
-            "allowedScriptHash": map(lambda x: x.to_json(), self.allowed_script_hashes),
+            "allowedScriptHash": list(
+                map(lambda x: x.to_json(), self.allowed_script_hashes)
+            ),
         }
 
     def to_encode_object(self):
@@ -150,16 +153,16 @@ class AssetMintTransaction:
             self.network_id,
             self.shard_id,
             self.metadata,
-            self.output.lock_script_hash,
-            map(lambda x: bytes(x), self.output.parameters),
-            self.output.supply.to_encode_object(),
+            self.output.lock_script_hash.to_encode_object(),
+            list(map(lambda x: bytes(x), self.output.parameters)),
+            self.output.supply,
             []
             if self.approver is None
             else [self.approver.account_id.to_encode_object()],
             []
             if self.registrar is None
             else [self.registrar.account_id.to_encode_object()],
-            map(lambda x: x.to_encode_object(), self.allowed_script_hashes),
+            list(map(lambda x: x.to_encode_object(), self.allowed_script_hashes)),
         ]
 
     def rlp_bytes(self):

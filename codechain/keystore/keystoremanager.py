@@ -23,7 +23,7 @@ class keystoreManager:
 
     def get_keys(self) -> list:
         rows = self.db[self.key_type.value]
-        return map(lambda storage: storage.address, rows)
+        return list(map(lambda storage: storage.address, rows))
 
     def import_raw(self, private_key: str, **kwargs):
         return self.__create_key_from_private_key(private_key, **kwargs)
