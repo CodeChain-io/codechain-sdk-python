@@ -21,8 +21,8 @@ tx = sdk.core.create_mint_asset_transaction(
     100000000,
 )
 
-tracker = tx.tracker()
 tx_hash = sdk.rpc.chain.send_transaction(tx, ACCOUNT_ADDRESS, ACCOUNT_PASSPHRASE)
 
-result = sdk.rpc.chain.get_transaction_results_by_tracker(tracker, None)
+result = sdk.rpc.chain.contains_transaction(tx_hash)
+
 print(result)
