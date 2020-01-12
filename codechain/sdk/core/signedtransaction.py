@@ -29,12 +29,16 @@ class SignedTransaction:
     def __init__(
         self,
         unsigned: Transaction,
-        signature: [bytes, bytearray],
+        signature: Union[bytes, bytearray],
         block_number: int = None,
         block_hash: H256 = None,
         transaction_index: int = None,
     ):
         self.unsigned = unsigned
+        if isinstance(signature, str):
+            if signature.startswith("0x"):
+                signature = signature[2:]
+            signature = bytes.fromhex(signature)
         self.signature = signature
         self.block_number = block_number
         self.block_hash = block_hash
@@ -42,11 +46,11 @@ class SignedTransaction:
 
     def to_encode_object(self):
         result = self.unsigned.to_encode_object()
-        result.append("0x" + binascii.hexlify(self.signature).decode("ascii"))
+        result.append(self.signature)
         return result
 
     def rlp_bytes(self):
-        encode(self.to_encode_object())
+        return encode(self.to_encode_object())
 
     def hash(self):
         return H256(blake256(self.rlp_bytes()))

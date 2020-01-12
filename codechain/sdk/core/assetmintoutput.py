@@ -6,6 +6,7 @@ from ..key.p2pkh import P2PKH
 from ..key.p2pkhburn import P2PKHBurn
 from codechain.primitives import AssetAddress
 from codechain.primitives import H160
+from codechain.primitives import MultiSig
 from codechain.primitives import U64
 
 
@@ -27,7 +28,7 @@ class AssetMintOutput:
         if recipient is not None:
             address_type = recipient.address_type
             payload = recipient.payload
-            if "pubkeys" in payload:
+            if isinstance(payload, MultiSig):
                 raise ValueError("Multisig payload is not supported yet")
 
             if address_type == 0x00:
@@ -54,12 +55,12 @@ class AssetMintOutput:
         return AssetMintOutput(
             U64(data["supply"]),
             H160(data["lockScriptHash"]),
-            map(lambda x: bytes.fromhex(x), data["parameters"]),
+            list(map(lambda x: bytes.fromhex(x), data["parameters"])),
         )
 
     def to_json(self):
         return {
             "lockScriptHash": self.lock_script_hash.to_json(),
-            "parameters": map(lambda x: binascii.hexlify(x).decode("ascii")),
+            "parameters": list(map(lambda x: binascii.hexlify(x).decode("ascii"))),
             "supply": self.supply.to_json(),
         }

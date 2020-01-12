@@ -135,12 +135,14 @@ def test_rlp_bytes(Hxxx, byte_length):
     zero = "00" * byte_length
     if byte_length <= 55:
         result = bytearray()
-        result.extend(map(ord, (chr(0x80 + byte_length) + "\x00" * byte_length)))
+        result.extend(list(map(ord, (chr(0x80 + byte_length) + "\x00" * byte_length))))
         assert Hxxx(zero).rlp_bytes() == result
         assert encode(Hxxx(zero)) == result
     elif byte_length <= 0xFF:
         result = bytearray()
-        result.extend(map(ord, (chr(0xB8) + chr(byte_length) + "\x00" * byte_length)))
+        result.extend(
+            list(map(ord, (chr(0xB8) + chr(byte_length) + "\x00" * byte_length)))
+        )
         assert Hxxx(zero).rlp_bytes() == result
         assert encode(Hxxx(zero)) == result
     else:

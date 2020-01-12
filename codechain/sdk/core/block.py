@@ -67,7 +67,7 @@ class Block:
             U256(data.score),
             data.seal,
             H256(data.block_hash),
-            map(from_json_to_signed_transaction, data.transactions),
+            list(map(from_json_to_signed_transaction, data.transactions)),
         )
 
     def to_json(self):
@@ -82,7 +82,7 @@ class Block:
             "score": str(self.score),
             "seal": self.seal,
             "hash": self.block_hash.to_json(),
-            "transactions": map(lambda x: x.to_json(), self.transactions),
+            "transactions": list(map(lambda x: x.to_json(), self.transactions)),
         }
 
     def get_size(self):
@@ -100,10 +100,10 @@ class Block:
         def seal_lambda(x):
             return "0x" + binascii.hexlify(bytes(x)).decode("ascii")
 
-        block_header + map(seal_lambda, self.seal)
+        block_header + list(map(seal_lambda, self.seal))
 
         encoded = encode(
-            [block_header, map(lambda x: x.to_encode_object(), self.transactions)]
+            [block_header, list(map(lambda x: x.to_encode_object(), self.transactions))]
         )
 
         return len(encoded)

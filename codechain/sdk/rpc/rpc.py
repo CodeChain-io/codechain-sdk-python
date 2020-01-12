@@ -3,8 +3,6 @@ from typing import List
 from ...rpc import Rpc as Rpc_thin
 
 
-
-
 class Rpc:
     def __init__(
         self,
@@ -15,8 +13,10 @@ class Rpc:
         self.server = server
         self.fallback_servers = fallback_servers
         from .chain import ChainRpc
+
         self.chain = ChainRpc(self, transaction_signer)
         from .account import AccountRpc
+
         self.account = AccountRpc(self)
 
     def send_rpc_request(self, group: str, name: str, *args):

@@ -61,7 +61,7 @@ class Asset:
             data["shardId"],
             U64(data["quantity"]),
             H160(data["lockScriptHash"]),
-            map(lambda x: bytes.fromhex(x), data["parameters"]),
+            list(map(lambda x: bytes.fromhex(x), data["parameters"])),
             None if data["orderHash"] is None else H256(data["orderHash"]),
         )
 
@@ -73,8 +73,8 @@ class Asset:
             "assetType": self.asset_type.to_json(),
             "shardId": self.shard_id,
             "lockScriptHash": self.lock_script_hash.to_json(),
-            "parameters": map(
-                lambda x: binascii.hexlify(x).decode("ascii"), self.parameters
+            "parameters": list(
+                map(lambda x: binascii.hexlify(x).decode("ascii"), self.parameters)
             ),
             "quantity": self.quantity.to_json(),
             "orderHash": None if self.order_hash is None else self.order_hash.to_json(),
@@ -101,17 +101,20 @@ class Asset:
 
         from .assettransferoutput import AssetTransferOutput
         from .transferasset import TransferAsset
+
         return TransferAsset(
             [],
             [AssetTransferInput(self.out_point, timelock, bytes(), bytes())],
-            map(
-                lambda x: AssetTransferOutput(
-                    self.asset_type,
-                    self.shard_id,
-                    x.quantity,
-                    AssetAddress.ensure(x.address),
-                ),
-                recipient,
+            list(
+                map(
+                    lambda x: AssetTransferOutput(
+                        self.asset_type,
+                        self.shard_id,
+                        x.quantity,
+                        AssetAddress.ensure(x.address),
+                    ),
+                    recipient,
+                )
             ),
             [],
             network_id,

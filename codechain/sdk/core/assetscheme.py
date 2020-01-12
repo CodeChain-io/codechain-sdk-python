@@ -57,13 +57,15 @@ class AssetScheme:
             else PlatformAddress.ensure(data["registrar"]),
             []
             if data["allowedScriptHashes"] is None
-            else map(lambda x: H160(x), data["allowedScriptHashes"]),
-            map(
-                lambda x: {
-                    "assetType": H160(x["assetType"]),
-                    "quantity": U64(x["quantity"]),
-                },
-                data["pool"],
+            else list(map(lambda x: H160(x), data["allowedScriptHashes"])),
+            list(
+                map(
+                    lambda x: {
+                        "assetType": H160(x["assetType"]),
+                        "quantity": U64(x["quantity"]),
+                    },
+                    data["pool"],
+                )
             ),
             None,
             None,
@@ -76,14 +78,16 @@ class AssetScheme:
             "supply": self.supply.to_json(),
             "approver": None if self.approver is None else str(self.approver),
             "registrar": None if self.registrar is None else str(self.registrar),
-            "allowedScriptHashes": map(
-                lambda x: x.to_json(), self.allowd_script_hashes
+            "allowedScriptHashes": list(
+                map(lambda x: x.to_json(), self.allowd_script_hashes)
             ),
-            "pool": map(
-                lambda x: {
-                    "assetType": x["assetType"].to_json(),
-                    "quantity": x["quantity"].to_json(),
-                }
+            "pool": list(
+                map(
+                    lambda x: {
+                        "assetType": x["assetType"].to_json(),
+                        "quantity": x["quantity"].to_json(),
+                    }
+                )
             ),
             "seq": self.seq,
         }

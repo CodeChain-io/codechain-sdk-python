@@ -26,7 +26,10 @@ class AssetSchemeChangeTransactionJSON:
 class ChangeAssetSchemeActionJSON(AssetSchemeChangeTransactionJSON):
     approvals: List[str]
 
+
 from .transaction import Transaction
+
+
 class ChangeAssetScheme(Transaction):
     def __init__(
         self,
@@ -104,8 +107,8 @@ class AssetSchemeChangeTransaction:
             "metadata": self.metatdata,
             "approver": None if self.approver is None else str(self.approver),
             "registrar": None if self.registrar is None else str(self.registrar),
-            "allowedScriptHashes": map(
-                lambda x: x.to_json(), self.allowed_script_hashes
+            "allowedScriptHashes": list(
+                map(lambda x: x.to_json(), self.allowed_script_hashes)
             ),
         }
 
@@ -123,7 +126,7 @@ class AssetSchemeChangeTransaction:
             None
             if self.registrar is None
             else [self.registrar.account_id.to_encode_object()],
-            map(lambda x: x.to_encode_object(), self.allowed_script_hashes),
+            list(map(lambda x: x.to_encode_object(), self.allowed_script_hashes)),
         ]
 
     def rlp_bytes(self):

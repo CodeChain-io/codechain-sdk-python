@@ -36,11 +36,11 @@ class ChainRpc:
                 f"Expected the first argument of sendTransaction to be a Transaction but found {tx}"
             )
 
-        account = self.transaction_signer
+        account = self.transaction_signer if account is None else account
         fee = (
-            None
+            self.get_mint_transaction_fee(tx.transaction_type(), block_number)
             if fee is None
-            else self.get_mint_transaction_fee(tx.transaction_type, block_number)
+            else fee
         )
 
         if account is None:
@@ -50,7 +50,7 @@ class ChainRpc:
                 f"Expected account param of sendTransaction to be a PlatformAddress value but found {account}"
             )
 
-        seq = None if seq is None else self.get_seq(account)
+        seq = self.get_seq(account) if seq is None else seq
 
         tx.seq = seq
 
@@ -61,6 +61,7 @@ class ChainRpc:
 
         address = PlatformAddress.ensure(account)
         sig = self.rpc.account.sign(tx.unsigned_hash(), address, passphrase)
+        print(tx.rlp_bytes())
         return self.send_signed_transaction(SignedTransaction(tx, sig))
 
     def send_signed_transaction(self, tx: SignedTransaction):

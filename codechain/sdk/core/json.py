@@ -51,7 +51,9 @@ def from_json_to_transaction(result: SignedTransactionJSON):
             if action.registrar is None
             else PlatformAddress.ensure(action.registrar)
         )
-        allowed_script_hashes = map(lambda x: H160(x), action.allowed_script_hashes)
+        allowed_script_hashes = list(
+            map(lambda x: H160(x), action.allowed_script_hashes)
+        )
 
         tx = ChangeAssetScheme(
             network_id,
