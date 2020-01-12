@@ -44,7 +44,7 @@ class AccountRpc:
             )
 
         result = self.rpc.send_rpc_request(
-            "account", "import_raw", H256(secret).to_string(prefix=True)
+            "account", "import_raw", H256(secret).to_string(prefix=True), passphrase
         )
 
         return str(PlatformAddress.ensure(result))
