@@ -61,7 +61,7 @@ class ChainRpc:
 
         address = PlatformAddress.ensure(account)
         sig = self.rpc.account.sign(tx.unsigned_hash(), address, passphrase)
-        print(tx.rlp_bytes())
+
         return self.send_signed_transaction(SignedTransaction(tx, sig))
 
     def send_signed_transaction(self, tx: SignedTransaction):
