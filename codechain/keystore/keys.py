@@ -3,7 +3,7 @@ from ..crypto import get_account_id_from_public
 from .keytype import KeyType
 
 
-def key_from_public_key(key_type: KeyType, public_key: str) -> str:
+def key_from_public_key(key_type: KeyType, public_key: str) -> bytes:
     if key_type == KeyType.PLATFORM:
         return get_account_id_from_public(public_key)
     elif key_type == KeyType.ASSET:

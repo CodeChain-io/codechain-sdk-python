@@ -42,11 +42,11 @@ def encode(private_key: bytes, key_type: KeyType, passphrase: str, meta: str):
             "cipher": "aes-128-ctr",
             "kdf": kdf,
             "kdfparams": kdf_params,
-            "mac": mac,
+            "mac": binascii.hexlify(mac).decode("ascii"),
         },
         "id": str(uuid.uuid4()),
         "version": 3,
-        "address": address,
+        "address": binascii.hexlify(address).decode("ascii"),
         "meta": meta,
     }
 
@@ -63,7 +63,7 @@ def decode(json, passphrase: str) -> str:
     ciphertext = bytes.fromhex(json["crypto"]["ciphertext"])
     mac = blake256(derivedKey[16:32] + ciphertext)
 
-    if mac != json["crypto"]["mac"]:
+    if mac != bytes.fromhex(json["crypto"]["mac"]):
         raise KeystoreError(ErrorCode.DECRYPTIONFAILED)
 
     if json["crypto"]["cipher"] != "aes-128-ctr":
