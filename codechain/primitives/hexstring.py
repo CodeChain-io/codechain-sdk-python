@@ -50,6 +50,8 @@ class _HexString(bytes):
     def check(cls, param):
         if isinstance(param, str):
             return cls.check_string(param)
+        elif isinstance(param, (bytes, bytearray)):
+            return cls.check_string(binascii.hexlify(param).decode("ascii"))
         else:
             return isinstance(param, cls)
 
